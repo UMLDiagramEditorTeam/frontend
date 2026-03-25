@@ -1,0 +1,38 @@
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    border: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3b82f6;
+}
+
+.btnPrimary {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btnPrimary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.btnOutline {
+    background-color: transparent;
+    color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btnOutline:hover {
+    background-color: #eff6ff;
+}

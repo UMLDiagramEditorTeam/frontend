@@ -1,3 +1,1 @@
-import ProjectsPage from "./ui/ProjectsPage";
-
-export { ProjectsPage };
+export { ProjectsPage } from './ui/ProjectsPage';
