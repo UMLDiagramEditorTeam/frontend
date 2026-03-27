@@ -21,3 +21,5 @@ Thumbs.db
 coverage/
 
 *.tsbuildinfo
+
+src/shared/api/generated/http-client.ts
