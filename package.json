@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "prepare": "husky",
-    "generate:api": "swagger-typescript-api generate --path ./src/shared/api/schema/uml-diagram-editor.yaml --output ./src/shared/api/generated --modular --axios"
+    "generate:api": "swagger-typescript-api generate --path https://virtserver.swaggerhub.com/bbb-7fb/spec/1.1.1 --output ./src/shared/api/generated --modular --axios"
   },
   "dependencies": {
     "antd": "^6.3.2",
