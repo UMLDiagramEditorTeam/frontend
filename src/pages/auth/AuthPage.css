@@ -16,12 +16,6 @@
     border-radius: 8px;
 }
 
-.authCard .ant-card-head-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-}
-
 .formItem {
     margin-bottom: 16px;
 }

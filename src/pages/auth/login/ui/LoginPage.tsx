@@ -3,6 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
 import logo from '@/shared/assets/logo.png';
+import { routePaths } from '@/shared/config/routePaths.ts';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const LoginPage = () => {
     remember: boolean;
   }) => {
     console.log(values);
-    navigate('/projects');
+    navigate(routePaths.projects);
   };
 
   return (

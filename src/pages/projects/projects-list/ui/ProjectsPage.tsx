@@ -11,7 +11,7 @@ import logo from '@/shared/assets/logo.png';
 
 export const ProjectsPage = () => {
   return (
-    <div className="ProjectsLayout">
+    <div className="projectsLayout">
       <header className="header">
         <div className="headerLogo">
           <img src={logo} alt="headerLogo" className="headerLogoImg" /> UML

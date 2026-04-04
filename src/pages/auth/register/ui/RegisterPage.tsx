@@ -88,7 +88,7 @@ export const RegisterPage = () => {
             </Button>
           </Form.Item>
 
-          <div className="footerrlink">
+          <div className="footerlink">
             Уже есть аккаунт? <a onClick={() => navigate('/login')}>Войти</a>
           </div>
         </Form>
