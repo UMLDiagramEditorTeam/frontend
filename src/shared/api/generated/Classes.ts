@@ -24,8 +24,8 @@ import {
   MethodUpdate,
   NotFoundError,
   UnauthorizedError,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Classes<
   SecurityDataType = unknown,
@@ -40,7 +40,7 @@ export class Classes<
    * @secure
    */
   attributesList = (
-    classId: number,
+    classId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -63,10 +63,10 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/attributes`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -79,7 +79,7 @@ export class Classes<
    * @secure
    */
   attributesCreate = (
-    classId: number,
+    classId: string,
     data: AttributeCreate,
     params: RequestParams = {},
   ) =>
@@ -92,11 +92,11 @@ export class Classes<
       | InternalServerError
     >({
       path: `/classes/${classId}/attributes`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -109,8 +109,8 @@ export class Classes<
    * @secure
    */
   attributesDetail = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -118,9 +118,9 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/attributes/${attributeId}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -133,8 +133,8 @@ export class Classes<
    * @secure
    */
   attributesUpdate = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     data: AttributeUpdate,
     params: RequestParams = {},
   ) =>
@@ -147,11 +147,11 @@ export class Classes<
       | InternalServerError
     >({
       path: `/classes/${classId}/attributes/${attributeId}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -164,8 +164,8 @@ export class Classes<
    * @secure
    */
   attributesDelete = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -173,7 +173,7 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/attributes/${attributeId}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
@@ -187,7 +187,7 @@ export class Classes<
    * @secure
    */
   methodsList = (
-    classId: number,
+    classId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -210,10 +210,10 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/methods`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -226,7 +226,7 @@ export class Classes<
    * @secure
    */
   methodsCreate = (
-    classId: number,
+    classId: string,
     data: MethodCreate,
     params: RequestParams = {},
   ) =>
@@ -239,11 +239,11 @@ export class Classes<
       | InternalServerError
     >({
       path: `/classes/${classId}/methods`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -256,8 +256,8 @@ export class Classes<
    * @secure
    */
   methodsDetail = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -265,9 +265,9 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/methods/${methodId}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -280,8 +280,8 @@ export class Classes<
    * @secure
    */
   methodsUpdate = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     data: MethodUpdate,
     params: RequestParams = {},
   ) =>
@@ -294,11 +294,11 @@ export class Classes<
       | InternalServerError
     >({
       path: `/classes/${classId}/methods/${methodId}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -311,8 +311,8 @@ export class Classes<
    * @secure
    */
   methodsDelete = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -320,7 +320,7 @@ export class Classes<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/classes/${classId}/methods/${methodId}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
