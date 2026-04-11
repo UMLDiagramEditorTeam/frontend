@@ -1,4 +1,4 @@
-import { User } from '@/shared/api/generated/data-contracts';
+import type { User } from '@/shared/api/generated/data-contracts';
 
 let currentUser: User | null = null;
 

@@ -11,7 +11,7 @@ export const login = async (email: string, password: string) => {
 
   tokenService.set(resp.data.access, resp.data.refresh);
 
-  const meResp = await authApi.getAuth(); // ✅ getAuth
+  const meResp = await authApi.getAuth();
   if (meResp.data) {
     setUser(meResp.data);
   }
