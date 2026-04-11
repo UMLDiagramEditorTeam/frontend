@@ -7,6 +7,7 @@ import { tokenService } from '@/features/auth/model/token';
 import { getMe } from '@/features/auth/model/getMe';
 import { setUser } from '@/features/auth/model/user.store';
 
+import './index.css';
 const initAuth = async () => {
   const access = tokenService.getAccess();
 
