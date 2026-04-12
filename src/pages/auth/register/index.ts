@@ -1,3 +1,1 @@
-import RegisterPage from "./ui/RegisterPage";
-
-export { RegisterPage };
+export { RegisterPage } from './ui/RegisterPage';

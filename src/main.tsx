@@ -6,6 +6,7 @@ import { router } from './app/router';
 import { tokenService } from '@/features/auth/model/token';
 import { getMe } from '@/features/auth/model/getMe';
 
+import './index.css';
 const initAuth = async () => {
   const access = tokenService.getAccess();
 

@@ -1,0 +1,110 @@
+.projectsLayout {
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    background: white;
+    height: 70px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.headerLogo {
+    font-size: 32px;
+    font-weight: 700;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerLogoImg {
+    width: 60px;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.headerIcon {
+    font-size: 20px;
+    color: #595959;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.headerIcon:hover {
+    color: #1890ff;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #e6f7ff;
+    color: #1890ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* EMPTY STATE */
+.emptyState {
+    background: white;
+    padding: 160px 440px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: 500px;
+}
+
+.emptyIcon {
+    font-size: 96px;
+    color: #bfbfbf;
+    margin-bottom: 24px;
+}
+
+.emptyTitle {
+    font-size: 30px;
+    font-weight: 600;
+    color: #262626;
+    margin-bottom: 12px;
+}
+
+.emptyDescription {
+    font-size: 20px;
+    color: #8c8c8c;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.emptyState .ant-btn {
+    height: 60px;
+    padding: 0 40px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
