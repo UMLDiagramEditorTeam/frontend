@@ -5,15 +5,13 @@ import { router } from './app/router';
 
 import { tokenService } from '@/features/auth/model/token';
 import { getMe } from '@/features/auth/model/getMe';
-import { setUser } from '@/features/auth/model/user.store';
 
 const initAuth = async () => {
   const access = tokenService.getAccess();
 
   if (access) {
     try {
-      const user = await getMe();
-      setUser(user);
+      await getMe();
     } catch {
       tokenService.clear();
     }

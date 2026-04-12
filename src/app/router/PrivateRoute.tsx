@@ -1,18 +1,18 @@
 import { Navigate } from 'react-router-dom';
-import { routePaths } from '@/shared/config/routePaths';
 import type { ReactNode } from 'react';
-import { getUser } from '@/features/auth/model/user.store';
+import { routePaths } from '@/shared/config/routePaths';
+import { tokenService } from '@/features/auth/model/token';
 
 type Props = {
   children: ReactNode;
 };
 
 export const PrivateRoute = ({ children }: Props) => {
-  const user = getUser();
+  const isAuth = !!tokenService.getAccess();
 
-  if (!user) {
+  if (!isAuth) {
     return <Navigate to={routePaths.login} replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };

@@ -7,7 +7,7 @@ import { Classes } from './generated/Classes';
 import { Interfaces } from './generated/Interfaces';
 
 const apiConfig = {
-  baseURL: 'https://virtserver.swaggerhub.com/bbb-7fb/spec/1.1.1',
+  baseURL: import.meta.env.VITE_API_URL,
   securityWorker: async () => {
     const access = tokenService.getAccess();
     return access ? { headers: { Authorization: `Bearer ${access}` } } : {};
