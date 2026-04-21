@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate:api": "swagger-typescript-api generate --path https://virtserver.swaggerhub.com/bbb-7fb/spec/1.1.1 --output ./src/shared/api/generated --modular --axios"
   },
   "dependencies": {
     "antd": "^6.3.2",
@@ -31,6 +32,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
+    "swagger-typescript-api": "^13.6.5",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.3.1"
