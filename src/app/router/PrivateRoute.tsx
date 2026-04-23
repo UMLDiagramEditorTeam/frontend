@@ -1,16 +1,18 @@
 import { Navigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { routePaths } from '@/shared/config/routePaths';
-import { tokenService } from '@/features/auth/model/token';
+import { useAuth } from '@/app/providers/auth-context';
 
 type Props = {
   children: ReactNode;
 };
 
 export const PrivateRoute = ({ children }: Props) => {
-  const isAuth = !!tokenService.getAccess();
+  const { user, isLoading } = useAuth();
 
-  if (!isAuth) {
+  if (isLoading) return null;
+
+  if (!user) {
     return <Navigate to={routePaths.login} replace />;
   }
 
