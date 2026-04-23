@@ -21,8 +21,8 @@ import {
   User,
   UserCreate,
   UserUpdate,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Users<
   SecurityDataType = unknown,
@@ -59,10 +59,10 @@ export class Users<
       UnauthorizedError | ForbiddenError | InternalServerError
     >({
       path: `/users`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -84,11 +84,11 @@ export class Users<
       | InternalServerError
     >({
       path: `/users`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -100,15 +100,15 @@ export class Users<
    * @request GET:/users/{id}
    * @secure
    */
-  usersDetail = (id: number, params: RequestParams = {}) =>
+  usersDetail = (id: string, params: RequestParams = {}) =>
     this.request<
       User,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -120,7 +120,7 @@ export class Users<
    * @request PUT:/users/{id}
    * @secure
    */
-  usersUpdate = (id: number, data: UserUpdate, params: RequestParams = {}) =>
+  usersUpdate = (id: string, data: UserUpdate, params: RequestParams = {}) =>
     this.request<
       User,
       | UnauthorizedError
@@ -131,11 +131,11 @@ export class Users<
       | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -147,13 +147,13 @@ export class Users<
    * @request DELETE:/users/{id}
    * @secure
    */
-  usersDelete = (id: number, params: RequestParams = {}) =>
+  usersDelete = (id: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
