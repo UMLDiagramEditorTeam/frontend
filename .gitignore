@@ -23,3 +23,5 @@ coverage/
 *.tsbuildinfo
 
 src/shared/api/generated/http-client.ts
+
+src/shared/api/generated/spec

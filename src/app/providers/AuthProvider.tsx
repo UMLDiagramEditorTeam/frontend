@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { tokenService } from '@/features/auth/model/token';
 import { getMe } from '@/features/auth/model/getMe';
 import type { User } from '@/shared/api/generated/data-contracts';
 import { AuthContext } from './auth-context';
@@ -10,16 +9,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const init = async () => {
-      if (!tokenService.getAccess()) {
-        setIsLoading(false);
-        return;
-      }
-
       try {
+        // исправила - пользователя узнаем только по куке
         const me = await getMe();
         setUser(me);
       } catch {
-        tokenService.clear();
+        // 401 - не авторизован
+        setUser(null);
       } finally {
         setIsLoading(false);
       }

@@ -1,4 +1,3 @@
-import { tokenService } from '@/features/auth/model/token';
 import { Auth } from './generated/Auth';
 import { Users } from './generated/Users';
 import { Projects } from './generated/Projects';
@@ -8,10 +7,7 @@ import { Interfaces } from './generated/Interfaces';
 
 const apiConfig = {
   baseURL: import.meta.env.VITE_API_URL,
-  securityWorker: async () => {
-    const access = tokenService.getAccess();
-    return access ? { headers: { Authorization: `Bearer ${access}` } } : {};
-  },
+  withCredentials: true,
 };
 
 export const api = {
@@ -24,5 +20,3 @@ export const api = {
 };
 
 export const authApi = api.auth;
-export const usersApi = api.users;
-export const projectsApi = api.projects;

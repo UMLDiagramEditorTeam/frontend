@@ -10,7 +10,7 @@ type Props = {
 export const PrivateRoute = ({ children }: Props) => {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return null;
+  if (isLoading) return <div>Loading...</div>;
 
   if (!user) {
     return <Navigate to={routePaths.login} replace />;
