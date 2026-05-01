@@ -6,8 +6,11 @@ import { MainPage } from '@/pages/main/ui/MainPage';
 import { LoginPage } from '@/pages/auth/login';
 import { RegisterPage } from '@/pages/auth/register';
 import { ProjectsPage } from '@/pages/projects/projects-list';
-import { ProjectDetailsPage } from '@/pages/projects/project-details';
+import { EditorPage } from '@/pages/editor/diagram-editor';
 import { ProfilePage } from '@/pages/profile';
+import { CodeUploadPage } from '@/pages/code-upload';
+import { ExportPage } from '@/pages/export';
+import { CodeGenerationPage } from '@/pages/code-generation';
 
 import { PrivateRoute } from './PrivateRoute';
 
@@ -19,6 +22,22 @@ export const router = createBrowserRouter([
   {
     path: routePaths.register,
     element: <RegisterPage />,
+  },
+  {
+    path: routePaths.codeUpload,
+    element: (
+      <PrivateRoute>
+        <CodeUploadPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: routePaths.export,
+    element: <ExportPage />,
+  },
+  {
+    path: routePaths.codeGeneration,
+    element: <CodeGenerationPage />,
   },
 
   // private
@@ -35,10 +54,10 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: routePaths.project,
+    path: routePaths.editor,
     element: (
       <PrivateRoute>
-        <ProjectDetailsPage />
+        <EditorPage />
       </PrivateRoute>
     ),
   },

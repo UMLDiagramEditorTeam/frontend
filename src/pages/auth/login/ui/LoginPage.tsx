@@ -2,7 +2,7 @@ import { Button, Form, Card, Input, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
-import logo from '@/shared/assets/logo.png';
+import logo from '../../../../../public/logo.png';
 import { routePaths } from '@/shared/config/routePaths.ts';
 
 export const LoginPage = () => {

@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   Class,
   ClassCreate,
   ClassUpdate,
@@ -29,8 +29,9 @@ import {
   RelationCreate,
   RelationUpdate,
   UnauthorizedError,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Windows<
   SecurityDataType = unknown,
@@ -72,10 +73,10 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/classes`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -102,11 +103,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/classes`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -124,9 +125,9 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/classes/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -154,11 +155,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/classes/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -176,7 +177,7 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/classes/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
@@ -215,10 +216,10 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/interfaces`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -245,11 +246,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/interfaces`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -271,9 +272,9 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/interfaces/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -301,11 +302,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/interfaces/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -327,7 +328,7 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/interfaces/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
@@ -358,12 +359,12 @@ export class Windows<
       limit?: number;
       /** Фильтр по типу связи */
       type?:
-        | "association"
-        | "aggregation"
-        | "composition"
-        | "inheritance"
-        | "realization"
-        | "dependency";
+        | 'association'
+        | 'aggregation'
+        | 'composition'
+        | 'inheritance'
+        | 'realization'
+        | 'dependency';
       /** Фильтр по исходному элементу */
       source_id?: number;
       /** Фильтр по целевому элементу */
@@ -376,10 +377,10 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/relations`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -406,11 +407,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/relations`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -432,9 +433,9 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/relations/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -461,11 +462,11 @@ export class Windows<
       | InternalServerError
     >({
       path: `/windows/${windowId}/relations/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -487,7 +488,7 @@ export class Windows<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/windows/${windowId}/relations/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });

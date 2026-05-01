@@ -1,7 +1,7 @@
 import { Button, Card, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
-import logo from '@/shared/assets/logo.png';
+import logo from '../../../../../public/logo.png';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();

@@ -211,3 +211,33 @@
     color: #bfbfbf;
     cursor: pointer;
 }
+
+/* Стили для инпута поиска в шапке */
+.headerSearchInput {
+    width: 200px;
+    transition: width 0.3s ease;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+    background: transparent;
+    box-shadow: none !important;
+}
+
+.headerSearchInput:focus,
+.headerSearchInput:hover {
+    border-bottom-color: #1890ff;
+}
+
+/* Подсветка иконки фильтра, если он активен */
+.activeFilter {
+    color: #1890ff !important;
+    background-color: rgba(24, 144, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+/* Стили для контейнера действий, чтобы элементы не прыгали */
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

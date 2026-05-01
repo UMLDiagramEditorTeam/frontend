@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ConflictError,
   ErrorResponse,
   InternalServerError,
@@ -21,8 +21,9 @@ import {
   RegisterResponse,
   UnauthorizedError,
   User,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Auth<
   SecurityDataType = unknown,
@@ -42,11 +43,11 @@ export class Auth<
       ConflictError | ErrorResponse | InternalServerError
     >({
       path: `/auth/register`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -64,11 +65,11 @@ export class Auth<
       UnauthorizedError | ErrorResponse | InternalServerError
     >({
       path: `/auth/login`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -83,9 +84,9 @@ export class Auth<
   logoutCreate = (params: RequestParams = {}) =>
     this.request<LogoutResponse, UnauthorizedError | InternalServerError>({
       path: `/auth/logout`,
-      method: "POST",
+      method: 'POST',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -100,9 +101,9 @@ export class Auth<
   getAuth = (params: RequestParams = {}) =>
     this.request<User, UnauthorizedError | InternalServerError>({
       path: `/auth/me`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
 }

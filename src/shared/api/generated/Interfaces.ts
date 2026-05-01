@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   Attribute,
   AttributeCreate,
   AttributeUpdate,
@@ -24,8 +24,9 @@ import {
   MethodUpdate,
   NotFoundError,
   UnauthorizedError,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Interfaces<
   SecurityDataType = unknown,
@@ -63,10 +64,10 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/attributes`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -92,11 +93,11 @@ export class Interfaces<
       | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/attributes`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -118,9 +119,9 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/attributes/${attributeId}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -147,11 +148,11 @@ export class Interfaces<
       | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/attributes/${attributeId}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -173,7 +174,7 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/attributes/${attributeId}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
@@ -210,10 +211,10 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/methods`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -239,11 +240,11 @@ export class Interfaces<
       | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/methods`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -265,9 +266,9 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/methods/${methodId}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -294,11 +295,11 @@ export class Interfaces<
       | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/methods/${methodId}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -320,7 +321,7 @@ export class Interfaces<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/interfaces/${interfaceId}/methods/${methodId}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });

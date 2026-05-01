@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ConflictError,
   ErrorResponse,
   ForbiddenError,
@@ -21,8 +21,9 @@ import {
   User,
   UserCreate,
   UserUpdate,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Users<
   SecurityDataType = unknown,
@@ -59,10 +60,10 @@ export class Users<
       UnauthorizedError | ForbiddenError | InternalServerError
     >({
       path: `/users`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -84,11 +85,11 @@ export class Users<
       | InternalServerError
     >({
       path: `/users`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -106,9 +107,9 @@ export class Users<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -131,11 +132,11 @@ export class Users<
       | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -153,7 +154,7 @@ export class Users<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/users/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });

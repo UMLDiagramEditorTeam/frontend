@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ErrorResponse,
   ForbiddenError,
   InlineResponse2001,
@@ -24,8 +24,9 @@ import {
   Window,
   WindowCreate,
   WindowUpdate,
-} from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+} from './data-contracts';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Projects<
   SecurityDataType = unknown,
@@ -73,10 +74,10 @@ export class Projects<
   ) =>
     this.request<InlineResponse2001, UnauthorizedError | InternalServerError>({
       path: `/projects`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -94,11 +95,11 @@ export class Projects<
       UnauthorizedError | ErrorResponse | InternalServerError
     >({
       path: `/projects`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -116,9 +117,9 @@ export class Projects<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/projects/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -144,11 +145,11 @@ export class Projects<
       | InternalServerError
     >({
       path: `/projects/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -166,7 +167,7 @@ export class Projects<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/projects/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
@@ -196,7 +197,7 @@ export class Projects<
        */
       limit?: number;
       /** Фильтр по типу окна */
-      type?: "class_diagram" | "sequence_diagram" | "use_case_diagram";
+      type?: 'class_diagram' | 'sequence_diagram' | 'use_case_diagram';
     },
     params: RequestParams = {},
   ) =>
@@ -205,10 +206,10 @@ export class Projects<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/projects/${projectId}/windows`,
-      method: "GET",
+      method: 'GET',
       query: query,
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -234,11 +235,11 @@ export class Projects<
       | InternalServerError
     >({
       path: `/projects/${projectId}/windows`,
-      method: "POST",
+      method: 'POST',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -256,9 +257,9 @@ export class Projects<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/projects/${projectId}/windows/${id}`,
-      method: "GET",
+      method: 'GET',
       secure: true,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -285,11 +286,11 @@ export class Projects<
       | InternalServerError
     >({
       path: `/projects/${projectId}/windows/${id}`,
-      method: "PUT",
+      method: 'PUT',
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
+      format: 'json',
       ...params,
     });
   /**
@@ -307,7 +308,7 @@ export class Projects<
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
       path: `/projects/${projectId}/windows/${id}`,
-      method: "DELETE",
+      method: 'DELETE',
       secure: true,
       ...params,
     });
