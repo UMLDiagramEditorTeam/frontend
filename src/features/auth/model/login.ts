@@ -5,11 +5,12 @@ import type { User } from '@/shared/api/generated/data-contracts';
 export const login = async (email: string, password: string): Promise<User> => {
   const resp = await authApi.loginCreate({ email, password });
 
-  if (!resp.data?.access || !resp.data?.refresh) {
+  if (!resp.data?.access) {
     throw new Error('Login failed');
   }
 
-  tokenService.set(resp.data.access, resp.data.refresh);
+  // правка - оставляю только access ; refresh придет в httpOnly cookie
+  tokenService.set(resp.data.access);
 
   const meResp = await authApi.getAuth();
 
@@ -17,5 +18,5 @@ export const login = async (email: string, password: string): Promise<User> => {
     throw new Error('Failed to fetch user');
   }
 
-  return meResp.data; // возвращаем пользоваля
+  return meResp.data;
 };

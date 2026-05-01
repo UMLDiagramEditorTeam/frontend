@@ -9,11 +9,11 @@ export const register = async (
 ): Promise<User> => {
   const resp = await authApi.registerCreate({ name, email, password });
 
-  if (!resp.data?.access || !resp.data?.refresh) {
+  if (!resp.data?.access) {
     throw new Error('Register failed');
   }
 
-  tokenService.set(resp.data.access, resp.data.refresh);
+  tokenService.set(resp.data.access);
 
   const meResp = await authApi.getAuth();
 
@@ -21,5 +21,5 @@ export const register = async (
     throw new Error('Failed to fetch user');
   }
 
-  return meResp.data; // возвращаем пользоваля
+  return meResp.data;
 };
