@@ -1,13 +1,13 @@
-import { authApi } from '../api/auth.api';
+import { mockAuthApi } from '@/shared/api/mock/auth.mock'; // моки
 import { tokenService } from './token';
-import type { User } from '@/shared/api/generated/data-contracts';
+import type { User } from './types'; // моковый юзер
 
 export const register = async (
   name: string,
   email: string,
   password: string,
 ): Promise<User> => {
-  const resp = await authApi.registerCreate({ name, email, password });
+  const resp = await mockAuthApi.registerCreate({ name, email, password });
 
   if (!resp.data?.access) {
     throw new Error('Register failed');
@@ -15,7 +15,7 @@ export const register = async (
 
   tokenService.set(resp.data.access);
 
-  const meResp = await authApi.getAuth();
+  const meResp = await mockAuthApi.getAuth();
 
   if (!meResp.data) {
     throw new Error('Failed to fetch user');
