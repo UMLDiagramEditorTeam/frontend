@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { User } from '@/shared/api/generated/data-contracts';
+import type { User } from '@/features/auth/model/types'; // моковый юзер
 
 export type AuthContextType = {
   user: User | null;

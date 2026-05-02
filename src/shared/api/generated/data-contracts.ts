@@ -68,6 +68,8 @@ export interface LoginRequest {
 export interface LoginResponse {
   /** @example "Успешный вход в систему" */
   message: string;
+  /** JWT access token */
+  access: string;
 }
 
 export interface RegisterRequest {
@@ -94,6 +96,8 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   /** @example "Пользователь успешно зарегистрирован" */
   message: string;
+  /** JWT access token */
+  access: string;
 }
 
 export interface LogoutResponse {

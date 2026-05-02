@@ -1,10 +1,7 @@
-import { authApi } from '../api/auth.api';
 import { tokenService } from './token';
 
 export const logout = async (): Promise<void> => {
-  try {
-    await authApi.logoutCreate();
-  } finally {
-    tokenService.clear();
-  }
+  // уточнить у бэка будет ли инвалидации cookie
+  // пока просто убираю access на клиенте
+  tokenService.clear();
 };

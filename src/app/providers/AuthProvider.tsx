@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { tokenService } from '@/features/auth/model/token';
 import { getMe } from '@/features/auth/model/getMe';
-import type { User } from '@/shared/api/generated/data-contracts';
+import type { User } from '@/features/auth/model/types'; // моковый юзер
 import { AuthContext } from './auth-context';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
