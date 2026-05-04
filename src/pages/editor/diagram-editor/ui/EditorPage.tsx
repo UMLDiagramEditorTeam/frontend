@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import clsx from 'clsx';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Tooltip, message, Input, Divider } from 'antd';
 import { routePaths } from '@/shared/config/routePaths';
@@ -68,7 +69,11 @@ const UMLNode = ({
 
   return (
     <div
-      className={`uml-node ${type === 'interfaceNode' ? 'interface-node' : 'class-node'} ${selected ? 'selected' : ''}`}
+      className={clsx('uml-node', {
+        'interface-node': type === 'interfaceNode',
+        'class-node': type !== 'interfaceNode',
+        selected: selected,
+      })}
       style={{ backgroundColor: data.bgColor || '#fff' }}
     >
       {selected && (
@@ -116,7 +121,6 @@ const nodeTypes = {
   interfaceNode: UMLNode,
 };
 
-//  Основной компонент
 export const EditorPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
@@ -130,46 +134,40 @@ export const EditorPage = () => {
     null,
   );
 
-  // Мы храним историю изменений.
-  // Чтобы не перегружать память, храним только последние 20 состояний.
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([
     { nodes: [], edges: [] },
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  // Флаг, чтобы избежать сохранения при программном изменении (undo/redo)
   const isUndoRedoAction = useRef(false);
 
-  // Функция сохранения текущего состояния в историю
   const takeSnapshot = useCallback(() => {
     if (isUndoRedoAction.current) {
       isUndoRedoAction.current = false;
       return;
     }
+    if (!reactFlowInstance) return;
+
+    const currentNodes = reactFlowInstance.getNodes();
+    const currentEdges = reactFlowInstance.getEdges();
 
     setHistory((prev) => {
-      // Обрезаем будущее, если мы сделали новое действие после Undo
       const newHistory = prev.slice(0, historyIndex + 1);
-      newHistory.push({ nodes, edges });
-      // Ограничиваем размер истории
+      newHistory.push({ nodes: currentNodes, edges: currentEdges });
       if (newHistory.length > 30) newHistory.shift();
       return newHistory;
     });
     setHistoryIndex((prev) => Math.min(prev + 1, 29));
-  }, [nodes, edges, historyIndex]);
+  }, [reactFlowInstance, historyIndex]);
 
-  // Слушаем изменения узлов и ребер для создания снимков
-  // Но делаем это осторожно, чтобы не спамить историю при перетаскивании
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => {
       onNodesChange(changes);
-      // Создаем снимок только когда перетаскивание закончено или узел удален
       const relevantChanges = changes.filter(
         (ch) =>
           ch.type === 'remove' || (ch.type === 'position' && !ch.dragging),
       );
       if (relevantChanges.length > 0) {
-        // Задержка для обновления состояния nodes
         setTimeout(() => takeSnapshot(), 0);
       }
     },
@@ -215,13 +213,11 @@ export const EditorPage = () => {
     }
   }, [history, historyIndex, setNodes, setEdges]);
 
-  //  Логика сохранения
   const handleSave = useCallback(() => {
     if (!reactFlowInstance) return;
     const flow = reactFlowInstance.toObject();
     const json = JSON.stringify(flow, null, 2);
 
-    // Создаем и скачиваем файл
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -232,8 +228,6 @@ export const EditorPage = () => {
 
     message.success('Файл сохранен');
   }, [reactFlowInstance, projectId]);
-
-  //  Остальная логика (Drag & Drop, Properties Panel)
 
   const onSelectionChange = useCallback(
     ({ nodes: selectedNodes }: { nodes: Node[] }) => {
@@ -252,7 +246,6 @@ export const EditorPage = () => {
   const handleDataChange = (key: keyof UMLNodeData, value: string) => {
     if (!selectedNode) return;
 
-    // Создаем снимок перед изменением данных
     takeSnapshot();
 
     setNodes((nds) =>
@@ -263,7 +256,6 @@ export const EditorPage = () => {
         return node;
       }),
     );
-    // Обновляем локальный стейт выбранного узла сразу
     setSelectedNode((prev) =>
       prev ? { ...prev, data: { ...prev.data, [key]: value } } : null,
     );
@@ -318,7 +310,6 @@ export const EditorPage = () => {
         </div>
 
         <div className="headerCenter">
-          {/* Блок Undo/Redo */}
           <Button.Group style={{ marginRight: 16 }}>
             <Tooltip title="Отменить">
               <Button

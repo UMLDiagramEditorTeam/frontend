@@ -31,14 +31,6 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  {
-    path: routePaths.export,
-    element: <ExportPage />,
-  },
-  {
-    path: routePaths.codeGeneration,
-    element: <CodeGenerationPage />,
-  },
 
   // private
   {
@@ -68,5 +60,13 @@ export const router = createBrowserRouter([
         <ProfilePage />
       </PrivateRoute>
     ),
+  },
+  {
+    path: routePaths.export,
+    element: <ExportPage />,
+  },
+  {
+    path: routePaths.codeGeneration,
+    element: <CodeGenerationPage />,
   },
 ]);

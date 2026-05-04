@@ -109,20 +109,20 @@
 }
 
 /* Поле для ввода кода */
-.codeTextarea {
+.uploadCard.codeTextarea {
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
-    border-radius: 8px !important;
-    border: 1px solid #d9d9d9 !important;
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
     padding: 16px;
     resize: none;
-    min-height: 220px !important;
-    height: 100% !important;
+    min-height: 220px;
+    height: 100%;
 }
 
 .codeTextarea:focus {
-    border-color: #1890ff !important;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 .pasteHint {
