@@ -33,6 +33,7 @@ import type {
 import { HttpClient, ContentType } from './http-client';
 import type { RequestParams } from './http-client';
 
+
 export class Windows<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
@@ -46,7 +47,7 @@ export class Windows<
    * @secure
    */
   classesList = (
-    windowId: number,
+    windowId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -89,7 +90,7 @@ export class Windows<
    * @secure
    */
   classesCreate = (
-    windowId: number,
+    windowId: string,
     data: ClassCreate,
     params: RequestParams = {},
   ) =>
@@ -119,7 +120,7 @@ export class Windows<
    * @request GET:/windows/{windowId}/classes/{id}
    * @secure
    */
-  classesDetail = (windowId: number, id: number, params: RequestParams = {}) =>
+  classesDetail = (windowId: string, id: string, params: RequestParams = {}) =>
     this.request<
       Class,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -140,8 +141,8 @@ export class Windows<
    * @secure
    */
   classesUpdate = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     data: ClassUpdate,
     params: RequestParams = {},
   ) =>
@@ -171,7 +172,7 @@ export class Windows<
    * @request DELETE:/windows/{windowId}/classes/{id}
    * @secure
    */
-  classesDelete = (windowId: number, id: number, params: RequestParams = {}) =>
+  classesDelete = (windowId: string, id: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -191,7 +192,7 @@ export class Windows<
    * @secure
    */
   interfacesList = (
-    windowId: number,
+    windowId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -232,7 +233,7 @@ export class Windows<
    * @secure
    */
   interfacesCreate = (
-    windowId: number,
+    windowId: string,
     data: InterfaceCreate,
     params: RequestParams = {},
   ) =>
@@ -263,8 +264,8 @@ export class Windows<
    * @secure
    */
   interfacesDetail = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -287,8 +288,8 @@ export class Windows<
    * @secure
    */
   interfacesUpdate = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     data: InterfaceUpdate,
     params: RequestParams = {},
   ) =>
@@ -319,8 +320,8 @@ export class Windows<
    * @secure
    */
   interfacesDelete = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -342,7 +343,7 @@ export class Windows<
    * @secure
    */
   relationsList = (
-    windowId: number,
+    windowId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -366,9 +367,9 @@ export class Windows<
         | 'realization'
         | 'dependency';
       /** Фильтр по исходному элементу */
-      source_id?: number;
+      begin_id?: string;
       /** Фильтр по целевому элементу */
-      target_id?: number;
+      end_id?: string;
     },
     params: RequestParams = {},
   ) =>
@@ -393,7 +394,7 @@ export class Windows<
    * @secure
    */
   relationsCreate = (
-    windowId: number,
+    windowId: string,
     data: RelationCreate,
     params: RequestParams = {},
   ) =>
@@ -424,8 +425,8 @@ export class Windows<
    * @secure
    */
   relationsDetail = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -448,8 +449,8 @@ export class Windows<
    * @secure
    */
   relationsUpdate = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     data: RelationUpdate,
     params: RequestParams = {},
   ) =>
@@ -479,8 +480,8 @@ export class Windows<
    * @secure
    */
   relationsDelete = (
-    windowId: number,
-    id: number,
+    windowId: string,
+    id: string,
     params: RequestParams = {},
   ) =>
     this.request<

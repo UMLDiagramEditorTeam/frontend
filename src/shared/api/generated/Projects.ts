@@ -28,6 +28,7 @@ import type {
 import { HttpClient, ContentType } from './http-client';
 import type { RequestParams } from './http-client';
 
+
 export class Projects<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
@@ -59,16 +60,6 @@ export class Projects<
       name?: string;
       /** Фильтр по флагу импорта */
       is_imported?: boolean;
-      /**
-       * Фильтр по дате создания (от)
-       * @format date-time
-       */
-      created_from?: string;
-      /**
-       * Фильтр по дате создания (до)
-       * @format date-time
-       */
-      created_to?: string;
     },
     params: RequestParams = {},
   ) =>
@@ -111,7 +102,7 @@ export class Projects<
    * @request GET:/projects/{id}
    * @secure
    */
-  projectsDetail = (id: number, params: RequestParams = {}) =>
+  projectsDetail = (id: string, params: RequestParams = {}) =>
     this.request<
       Project,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -132,7 +123,7 @@ export class Projects<
    * @secure
    */
   projectsUpdate = (
-    id: number,
+    id: string,
     data: ProjectUpdate,
     params: RequestParams = {},
   ) =>
@@ -161,7 +152,7 @@ export class Projects<
    * @request DELETE:/projects/{id}
    * @secure
    */
-  projectsDelete = (id: number, params: RequestParams = {}) =>
+  projectsDelete = (id: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -181,7 +172,7 @@ export class Projects<
    * @secure
    */
   windowsList = (
-    projectId: number,
+    projectId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -198,6 +189,7 @@ export class Projects<
       limit?: number;
       /** Фильтр по типу окна */
       type?: 'class_diagram' | 'sequence_diagram' | 'use_case_diagram';
+    //уточнить типы
     },
     params: RequestParams = {},
   ) =>
@@ -222,7 +214,7 @@ export class Projects<
    * @secure
    */
   windowsCreate = (
-    projectId: number,
+    projectId: string,
     data: WindowCreate,
     params: RequestParams = {},
   ) =>
@@ -251,7 +243,7 @@ export class Projects<
    * @request GET:/projects/{projectId}/windows/{id}
    * @secure
    */
-  windowsDetail = (projectId: number, id: number, params: RequestParams = {}) =>
+  windowsDetail = (projectId: string, id: string, params: RequestParams = {}) =>
     this.request<
       Window,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -272,8 +264,8 @@ export class Projects<
    * @secure
    */
   windowsUpdate = (
-    projectId: number,
-    id: number,
+    projectId: string,
+    id: string,
     data: WindowUpdate,
     params: RequestParams = {},
   ) =>
@@ -302,7 +294,7 @@ export class Projects<
    * @request DELETE:/projects/{projectId}/windows/{id}
    * @secure
    */
-  windowsDelete = (projectId: number, id: number, params: RequestParams = {}) =>
+  windowsDelete = (projectId: string, id: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError

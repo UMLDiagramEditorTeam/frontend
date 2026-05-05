@@ -25,6 +25,7 @@ import type {
 import { HttpClient, ContentType } from './http-client';
 import type { RequestParams } from './http-client';
 
+
 export class Users<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
@@ -101,7 +102,7 @@ export class Users<
    * @request GET:/users/{id}
    * @secure
    */
-  usersDetail = (id: number, params: RequestParams = {}) =>
+  usersDetail = (id: string, params: RequestParams = {}) =>
     this.request<
       User,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
@@ -121,7 +122,7 @@ export class Users<
    * @request PUT:/users/{id}
    * @secure
    */
-  usersUpdate = (id: number, data: UserUpdate, params: RequestParams = {}) =>
+  usersUpdate = (id: string, data: UserUpdate, params: RequestParams = {}) =>
     this.request<
       User,
       | UnauthorizedError
@@ -148,7 +149,7 @@ export class Users<
    * @request DELETE:/users/{id}
    * @secure
    */
-  usersDelete = (id: number, params: RequestParams = {}) =>
+  usersDelete = (id: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError

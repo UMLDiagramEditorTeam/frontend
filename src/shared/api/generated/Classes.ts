@@ -28,6 +28,7 @@ import type {
 import { HttpClient, ContentType } from './http-client';
 import type { RequestParams } from './http-client';
 
+
 export class Classes<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
@@ -41,7 +42,7 @@ export class Classes<
    * @secure
    */
   attributesList = (
-    classId: number,
+    classId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -80,7 +81,7 @@ export class Classes<
    * @secure
    */
   attributesCreate = (
-    classId: number,
+    classId: string,
     data: AttributeCreate,
     params: RequestParams = {},
   ) =>
@@ -110,8 +111,8 @@ export class Classes<
    * @secure
    */
   attributesDetail = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -134,8 +135,8 @@ export class Classes<
    * @secure
    */
   attributesUpdate = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     data: AttributeUpdate,
     params: RequestParams = {},
   ) =>
@@ -165,8 +166,8 @@ export class Classes<
    * @secure
    */
   attributesDelete = (
-    classId: number,
-    attributeId: number,
+    classId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -188,7 +189,7 @@ export class Classes<
    * @secure
    */
   methodsList = (
-    classId: number,
+    classId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -227,7 +228,7 @@ export class Classes<
    * @secure
    */
   methodsCreate = (
-    classId: number,
+    classId: string,
     data: MethodCreate,
     params: RequestParams = {},
   ) =>
@@ -257,8 +258,8 @@ export class Classes<
    * @secure
    */
   methodsDetail = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -281,8 +282,8 @@ export class Classes<
    * @secure
    */
   methodsUpdate = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     data: MethodUpdate,
     params: RequestParams = {},
   ) =>
@@ -312,8 +313,8 @@ export class Classes<
    * @secure
    */
   methodsDelete = (
-    classId: number,
-    methodId: number,
+    classId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<

@@ -10,7 +10,9 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
+  ChangePasswordRequest,
+  ChangePasswordResponse,
   ConflictError,
   ErrorResponse,
   InternalServerError,
@@ -103,6 +105,31 @@ export class Auth<
       path: `/auth/me`,
       method: 'GET',
       secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Auth
+   * @name PasswordChangeCreate
+   * @summary Смена пароля пользователя
+   * @request POST:/auth/password-change
+   * @secure
+   */
+  passwordChangeCreate = (
+    data: ChangePasswordRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ChangePasswordResponse,
+      ErrorResponse | UnauthorizedError | InternalServerError
+    >({
+      path: `/auth/password-change`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     });

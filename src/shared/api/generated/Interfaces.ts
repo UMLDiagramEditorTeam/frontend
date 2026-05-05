@@ -28,6 +28,7 @@ import type {
 import { HttpClient, ContentType } from './http-client';
 import type { RequestParams } from './http-client';
 
+
 export class Interfaces<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
@@ -41,7 +42,7 @@ export class Interfaces<
    * @secure
    */
   attributesList = (
-    interfaceId: number,
+    interfaceId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -80,7 +81,7 @@ export class Interfaces<
    * @secure
    */
   attributesCreate = (
-    interfaceId: number,
+    interfaceId: string,
     data: AttributeCreate,
     params: RequestParams = {},
   ) =>
@@ -110,8 +111,8 @@ export class Interfaces<
    * @secure
    */
   attributesDetail = (
-    interfaceId: number,
-    attributeId: number,
+    interfaceId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -134,8 +135,8 @@ export class Interfaces<
    * @secure
    */
   attributesUpdate = (
-    interfaceId: number,
-    attributeId: number,
+    interfaceId: string,
+    attributeId: string,
     data: AttributeUpdate,
     params: RequestParams = {},
   ) =>
@@ -165,8 +166,8 @@ export class Interfaces<
    * @secure
    */
   attributesDelete = (
-    interfaceId: number,
-    attributeId: number,
+    interfaceId: string,
+    attributeId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -188,7 +189,7 @@ export class Interfaces<
    * @secure
    */
   methodsList = (
-    interfaceId: number,
+    interfaceId: string,
     query?: {
       /**
        * Номер страницы (с 1)
@@ -227,7 +228,7 @@ export class Interfaces<
    * @secure
    */
   methodsCreate = (
-    interfaceId: number,
+    interfaceId: string,
     data: MethodCreate,
     params: RequestParams = {},
   ) =>
@@ -257,8 +258,8 @@ export class Interfaces<
    * @secure
    */
   methodsDetail = (
-    interfaceId: number,
-    methodId: number,
+    interfaceId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -281,8 +282,8 @@ export class Interfaces<
    * @secure
    */
   methodsUpdate = (
-    interfaceId: number,
-    methodId: number,
+    interfaceId: string,
+    methodId: string,
     data: MethodUpdate,
     params: RequestParams = {},
   ) =>
@@ -312,8 +313,8 @@ export class Interfaces<
    * @secure
    */
   methodsDelete = (
-    interfaceId: number,
-    methodId: number,
+    interfaceId: string,
+    methodId: string,
     params: RequestParams = {},
   ) =>
     this.request<

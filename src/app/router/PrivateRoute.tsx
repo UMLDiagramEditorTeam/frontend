@@ -1,18 +1,20 @@
-import { Navigate } from "react-router-dom";
-import { routePaths } from "@/shared/config/routePaths";
-import type { ReactNode } from "react";
+import { Navigate } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { routePaths } from '@/shared/config/routePaths';
+import { useAuth } from '@/app/providers/auth-context';
 
 type Props = {
   children: ReactNode;
 };
 
 export const PrivateRoute = ({ children }: Props) => {
-  // параметр тру на авторизацию
-  const isAuth = true;
+  const { user, isLoading } = useAuth();
 
-  if (!isAuth) {
-    return <Navigate to={routePaths.login} />;
+  if (isLoading) return null;
+
+  if (!user) {
+    return <Navigate to={routePaths.login} replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };

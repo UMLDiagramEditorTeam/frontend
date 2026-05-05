@@ -68,6 +68,8 @@ export interface LoginRequest {
 export interface LoginResponse {
   /** @example "Успешный вход в систему" */
   message: string;
+  /** JWT access token */
+  access: string;
 }
 
 export interface RegisterRequest {
@@ -94,19 +96,23 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   /** @example "Пользователь успешно зарегистрирован" */
   message: string;
+  /** JWT access token */
+  access: string;
 }
 
 export interface LogoutResponse {
   /** @example "Успешный выход из системы" */
   message: string;
+  /** @example "success" */
+  status?: string;
 }
 
 export interface User {
   /**
-   * @format int64
-   * @example 1
+   * @format uuid
+   * @example "550e8400-e29b-41d4-a716-446655440000"
    */
-  id: number;
+  id: string;
   /**
    * @maxLength 100
    * @example "John Doe"
@@ -146,26 +152,20 @@ export interface UserCreate {
 
 export interface UserUpdate {
   /** @maxLength 100 */
-  name?: string;
+  name: string;
   /**
    * @format email
    * @maxLength 100
    */
-  email?: string;
-  /**
-   * @format password
-   * @minLength 6
-   * @maxLength 50
-   */
-  password?: string;
+  email: string;
 }
 
 export interface Project {
   /**
-   * @format int64
-   * @example 10
+   * @format uuid
+   * @example "550e8400-e29b-41d4-a716-446655440000"
    */
-  id: number;
+  id: string;
   /**
    * @maxLength 200
    * @example "E-commerce System"
@@ -179,8 +179,8 @@ export interface Project {
   created_at: string;
   /** @format date-time */
   updated_at?: string;
-  /** @format int64 */
-  user_id: number;
+  /** @format uuid */
+  user_id: string;
 }
 
 export interface ProjectCreate {
@@ -191,35 +191,35 @@ export interface ProjectCreate {
   name: string;
   description?: string | null;
   /** @default false */
-  is_imported?: boolean;
+  is_imported: boolean;
 }
 
 export interface ProjectUpdate {
   /** @maxLength 200 */
-  name?: string;
+  name: string;
   description?: string | null;
-  is_imported?: boolean;
+  is_imported: boolean;
 }
 
 export interface Window {
   /**
-   * @format int64
-   * @example 5
+   * @format uuid
+   * @example "550e8400-e29b-41d4-a716-446655440000"
    */
-  id: number;
+  id: string;
   /**
    * @maxLength 200
    * @example "Main Class Diagram"
    */
   name: string;
   /** @example "class_diagram" */
-  type: "class_diagram" | "sequence_diagram" | "use_case_diagram";
+  type: 'class_diagram' | 'sequence_diagram';
   /** @format date-time */
   created_at: string;
   /** @format date-time */
   updated_at?: string;
-  /** @format int64 */
-  project_id: number;
+  /** @format uuid */
+  project_id: string;
 }
 
 export interface WindowCreate {
@@ -229,27 +229,20 @@ export interface WindowCreate {
    */
   name: string;
   /** @default "class_diagram" */
-  type?: "class_diagram" | "sequence_diagram" | "use_case_diagram";
+  type: 'class_diagram' | 'sequence_diagram';
 }
 
 export interface WindowUpdate {
   /** @maxLength 200 */
-  name?: string;
-  type?: "class_diagram" | "sequence_diagram" | "use_case_diagram";
+  name: string;
+  type: 'class_diagram' | 'sequence_diagram';
 }
 
-export interface Class {
-  /** @format int64 */
-  id: number;
-  /**
-   * @maxLength 100
-   * @example "UserService"
-   */
-  name: string;
-  /** @example "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+export interface Tile {
+  /** @format uuid */
+  id: string;
   /** @default false */
-  is_abstract?: boolean;
+  is_correct?: boolean;
   /** @example 100 */
   position_x?: number;
   /** @example 150 */
@@ -258,8 +251,52 @@ export interface Class {
   width?: number;
   /** @default 150 */
   height?: number;
-  /** @format int64 */
-  window_id: number;
+  /** @format date-time */
+  created_at?: string;
+  /** @format date-time */
+  updated_at?: string;
+}
+
+export interface TileCreate {
+  /** @format uuid */
+  id: string;
+  /** @default false */
+  is_correct?: boolean;
+  /** @example 100 */
+  position_x?: number;
+  /** @example 150 */
+  position_y?: number;
+  /** @default 200 */
+  width?: number;
+  /** @default 150 */
+  height?: number;
+}
+
+export interface TileUpdate {
+  /** @default false */
+  is_correct?: boolean;
+  position_x?: number;
+  position_y?: number;
+  width?: number;
+  height?: number;
+}
+
+export interface Class {
+  /** @format uuid */
+  id: string;
+  /**
+   * @maxLength 100
+   * @example "UserService"
+   */
+  name: string;
+  /** @example "public" */
+  access_modifier?: 'public' | 'private' | 'protected' | null;
+  /** @default false */
+  is_abstract?: boolean;
+  /** @format uuid */
+  window_id: string;
+  /** @format uuid */
+  tile_id: string;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -273,48 +310,30 @@ export interface ClassCreate {
    */
   name: string;
   /** @default "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /** @default false */
   is_abstract?: boolean;
-  /** @default 0 */
-  position_x?: number;
-  /** @default 0 */
-  position_y?: number;
-  /** @default 200 */
-  width?: number;
-  /** @default 150 */
-  height?: number;
 }
 
 export interface ClassUpdate {
   /** @maxLength 100 */
-  name?: string;
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  name: string;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   is_abstract?: boolean;
-  position_x?: number;
-  position_y?: number;
-  width?: number;
-  height?: number;
 }
 
 export interface Interface {
-  /** @format int64 */
-  id: number;
+  /** @format uuid */
+  id: string;
   /**
    * @maxLength 100
    * @example "UserRepository"
    */
   name: string;
-  /** @example 100 */
-  position_x?: number;
-  /** @example 150 */
-  position_y?: number;
-  /** @default 200 */
-  width?: number;
-  /** @default 120 */
-  height?: number;
-  /** @format int64 */
-  window_id: number;
+  /** @format uuid */
+  tile_id: string;
+  /** @format uuid */
+  window_id: string;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -327,35 +346,23 @@ export interface InterfaceCreate {
    * @example "NewInterface"
    */
   name: string;
-  /** @default 0 */
-  position_x?: number;
-  /** @default 0 */
-  position_y?: number;
-  /** @default 200 */
-  width?: number;
-  /** @default 120 */
-  height?: number;
 }
 
 export interface InterfaceUpdate {
   /** @maxLength 100 */
-  name?: string;
-  position_x?: number;
-  position_y?: number;
-  width?: number;
-  height?: number;
+  name: string;
 }
 
 export interface Attribute {
-  /** @format int64 */
-  id: number;
+  /** @format uuid */
+  id: string;
   /**
    * @maxLength 100
    * @example "userName"
    */
   name: string;
   /** @default "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /**
    * Тип данных
    * @maxLength 100
@@ -371,10 +378,10 @@ export interface Attribute {
   is_static?: boolean;
   /** @example ""guest"" */
   default_value?: string | null;
-  /** @format int64 */
-  class_id?: number | null;
-  /** @format int64 */
-  interface_id?: number | null;
+  /** @format uuid */
+  class_id?: string | null;
+  /** @format uuid */
+  interface_id?: string | null;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -388,7 +395,7 @@ export interface AttributeCreate {
    */
   name: string;
   /** @default "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /**
    * @maxLength 100
    * @example "int"
@@ -403,16 +410,16 @@ export interface AttributeCreate {
 
 export interface AttributeUpdate {
   /** @maxLength 100 */
-  name?: string;
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  name: string;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /** @maxLength 100 */
-  type?: string;
+  type: string;
   is_final?: boolean;
   is_static?: boolean;
   default_value?: string | null;
 }
 
-export interface MethodParameter {
+export interface MethodArgument {
   /** @example "userId" */
   name: string;
   /** @example "int" */
@@ -422,15 +429,15 @@ export interface MethodParameter {
 }
 
 export interface Method {
-  /** @format int64 */
-  id: number;
+  /** @format uuid */
+  id: string;
   /**
    * @maxLength 100
    * @example "calculateTotal"
    */
   name: string;
   /** @default "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /**
    * @maxLength 100
    * @example "double"
@@ -442,11 +449,11 @@ export interface Method {
   is_static?: boolean;
   /** @default false */
   is_abstract?: boolean;
-  parameters?: MethodParameter[];
-  /** @format int64 */
-  class_id?: number | null;
-  /** @format int64 */
-  interface_id?: number | null;
+  parameters?: MethodArgument[];
+  /** @format uuid */
+  class_id?: string | null;
+  /** @format uuid */
+  interface_id?: string | null;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -460,7 +467,7 @@ export interface MethodCreate {
    */
   name: string;
   /** @default "public" */
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /**
    * @maxLength 100
    * @example "void"
@@ -472,54 +479,51 @@ export interface MethodCreate {
   is_static?: boolean;
   /** @default false */
   is_abstract?: boolean;
-  parameters?: MethodParameter[];
+  parameters?: MethodArgument[];
 }
 
 export interface MethodUpdate {
   /** @maxLength 100 */
-  name?: string;
-  access_modifier?: "public" | "private" | "protected" | "package" | null;
+  name: string;
+  access_modifier?: 'public' | 'private' | 'protected' | null;
   /** @maxLength 100 */
-  return_type?: string;
+  return_type: string;
   is_final?: boolean;
   is_static?: boolean;
   is_abstract?: boolean;
-  parameters?: MethodParameter[];
+  parameters?: MethodArgument[];
 }
 
 export interface Relation {
-  /** @format int64 */
-  id: number;
-  /** @example "inheritance" */
-  type:
-    | "association"
-    | "aggregation"
-    | "composition"
-    | "inheritance"
-    | "realization"
-    | "dependency";
-  /**
-   * ID исходного элемента
-   * @format int64
-   */
-  source_id: number;
-  source_type: "class" | "interface";
-  /**
-   * ID целевого элемента
-   * @format int64
-   */
-  target_id: number;
-  target_type: "class" | "interface";
-  /** @example "1" */
-  source_multiplicity?: string | null;
-  /** @example "0..*" */
-  target_multiplicity?: string | null;
-  /** @example "owner" */
-  source_role?: string | null;
-  /** @example "items" */
-  target_role?: string | null;
-  /** @format int64 */
-  window_id: number;
+  /** @format uuid */
+  id: string;
+  type: 'relation' | 'realization';
+  /** @format uuid */
+  begin_class_id?: string;
+  /** @format uuid */
+  end_class_id?: string;
+  /** @format uuid */
+  begin_interface_id?: string;
+  /** @format uuid */
+  end_interface_id?: string;
+  begin_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
+  end_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
+  /** @format uuid */
+  window_id: string;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -527,37 +531,85 @@ export interface Relation {
 }
 
 export interface RelationCreate {
-  type:
-    | "association"
-    | "aggregation"
-    | "composition"
-    | "inheritance"
-    | "realization"
-    | "dependency";
-  /** @format int64 */
-  source_id: number;
-  source_type: "class" | "interface";
-  /** @format int64 */
-  target_id: number;
-  target_type: "class" | "interface";
-  source_multiplicity?: string | null;
-  target_multiplicity?: string | null;
-  source_role?: string | null;
-  target_role?: string | null;
+  type: 'relation' | 'realization';
+  /** @format uuid */
+  begin_class_id?: string;
+  /** @format uuid */
+  end_class_id?: string;
+  /** @format uuid */
+  begin_interface_id?: string;
+  /** @format uuid */
+  end_interface_id?: string;
+  begin_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
+  end_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
 }
 
 export interface RelationUpdate {
-  type?:
-    | "association"
-    | "aggregation"
-    | "composition"
-    | "inheritance"
-    | "realization"
-    | "dependency";
-  source_multiplicity?: string | null;
-  target_multiplicity?: string | null;
-  source_role?: string | null;
-  target_role?: string | null;
+  type: 'relation' | 'realization';
+  begin_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
+  end_type:
+    | 'one'
+    | 'many'
+    | 'one_only_one'
+    | 'one_or_many'
+    | 'zero_or_one'
+    | 'zero_or_many'
+    | null;
+}
+
+export interface ChangePasswordRequest {
+  /**
+   * Текущий пароль пользователя
+   * @format password
+   * @minLength 8
+   * @example "oldPassword123"
+   */
+  current_password: string;
+  /**
+   * Новый пароль
+   * @format password
+   * @minLength 8
+   * @example "newPassword456"
+   */
+  new_password: string;
+  /**
+   * Подтверждение нового пароля
+   * @format password
+   * @minLength 8
+   * @example "newPassword456"
+   */
+  confirm_password: string;
+}
+
+export interface ChangePasswordResponse {
+  /**
+   * Сообщение об успешной смене пароля
+   * @example "Password changed successfully"
+   */
+  message?: string;
+  /** @example "success" */
+  status?: string;
 }
 
 export interface PaginatedResponse {
