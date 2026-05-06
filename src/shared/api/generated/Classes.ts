@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   Attribute,
   AttributeCreate,
   AttributeUpdate,
@@ -25,7 +25,9 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
+
 
 export class Classes<
   SecurityDataType = unknown,

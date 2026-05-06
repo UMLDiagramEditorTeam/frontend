@@ -24,7 +24,8 @@ import {
   UnauthorizedError,
   User,
 } from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
 
 export class Auth<
   SecurityDataType = unknown,

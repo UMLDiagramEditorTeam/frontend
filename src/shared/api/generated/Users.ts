@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ConflictError,
   ErrorResponse,
   ForbiddenError,
@@ -22,7 +22,9 @@ import {
   UserCreate,
   UserUpdate,
 } from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
+
 
 export class Users<
   SecurityDataType = unknown,

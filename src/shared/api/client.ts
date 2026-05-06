@@ -6,6 +6,7 @@ import { Windows } from './generated/Windows';
 import { Classes } from './generated/Classes';
 import { Interfaces } from './generated/Interfaces';
 
+
 const apiConfig = {
   baseURL: import.meta.env.VITE_API_URL,
   securityWorker: async () => {
@@ -26,3 +27,4 @@ export const api = {
 export const authApi = api.auth;
 export const usersApi = api.users;
 export const projectsApi = api.projects;
+

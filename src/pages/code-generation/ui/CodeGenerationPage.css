@@ -1,0 +1,112 @@
+.genPageLayout {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.genCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.genHeader {
+    text-align: center;
+    padding: 24px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.genIcon {
+    font-size: 32px;
+    color: #1890ff;
+    margin-bottom: 8px;
+}
+
+.genHeader h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.genHeader p {
+    margin: 4px 0 0;
+    color: #8c8c8c;
+    font-size: 14px;
+}
+
+.genBody {
+    padding: 24px;
+}
+
+.genSection {
+    margin-bottom: 24px;
+}
+
+.sectionLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+/* Стили для выбора языка */
+.languageGroup {
+    width: 100%;
+    display: flex;
+}
+
+.languageGroup .ant-radio-button-wrapper {
+    flex: 1;
+    text-align: center;
+}
+
+/* Блок настроек */
+.settingsBox {
+    background: #fafafa;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Результаты */
+.genResult {
+    margin-top: 16px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.resultHeader {
+    margin-bottom: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.fileList {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 0 16px;
+    border: 1px solid #e8e8e8;
+}
+
+.genFooter {
+    padding: 16px 24px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-end;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,7 +1,6 @@
 import { Button, Card, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
-import logo from '@/shared/assets/logo.png';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ export const RegisterPage = () => {
   return (
     <div className="authContainer">
       <div className="authLogoWrapper">
-        <img src={logo} alt="Logo" className="authLogoImg" />
+        <img src="/logo.png" alt="Logo" className="authLogoImg" />
       </div>
       <Card title="Регистрация" className="authCard">
         <Form

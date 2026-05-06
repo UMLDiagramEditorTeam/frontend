@@ -1,12 +1,14 @@
 export const routePaths = {
-  home: "/",
-  login: "/login",
-  register: "/register",
+  home: '/',
+  login: '/login',
+  register: '/register',
 
-  projects: "/projects",
-  project: "/projects/:id",
+  projects: '/projects',
 
-  editor: "/editor/:projectId/:windowId",
+  editor: '/projects/:projectId',
+  codeUpload: '/import-code',
+  export: '/export',
+  codeGeneration: '/generate-code',
 
-  profile: "/profile",
+  profile: '/profile',
 };

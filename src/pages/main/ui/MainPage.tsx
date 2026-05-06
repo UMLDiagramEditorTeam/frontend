@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
-import logo from '@/shared/assets/logo.png';
+import logo from '../../../../public/logo.png';
 
 export const MainPage = () => {
   const navigate = useNavigate();

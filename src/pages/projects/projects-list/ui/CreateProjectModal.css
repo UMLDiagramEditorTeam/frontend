@@ -1,0 +1,77 @@
+.modalStep {
+    margin-top: 20px;
+}
+
+.modalLabel {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: red;
+}
+
+.modalHint {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+}
+
+.typeGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.typeCard {
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.typeCard:hover {
+    border-color: #d9d9d9;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.typeCard.active {
+    border-color: #1890ff;
+    background-color: #e6f7ff;
+}
+
+.typeIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    color: white;
+    font-size: 24px;
+}
+
+.typeCard h4 {
+    margin: 0 0 4px 0;
+    font-weight: 600;
+}
+
+.typeCard p {
+    margin: 0;
+    color: #8c8c8c;
+    font-size: 12px;
+}

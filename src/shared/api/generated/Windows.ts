@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   Class,
   ClassCreate,
   ClassUpdate,
@@ -30,7 +30,9 @@ import {
   RelationUpdate,
   UnauthorizedError,
 } from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
+
 
 export class Windows<
   SecurityDataType = unknown,
@@ -357,7 +359,13 @@ export class Windows<
        */
       limit?: number;
       /** Фильтр по типу связи */
-      type?: 'realization' | 'relation';
+      type?:
+        | 'association'
+        | 'aggregation'
+        | 'composition'
+        | 'inheritance'
+        | 'realization'
+        | 'dependency';
       /** Фильтр по исходному элементу */
       begin_id?: string;
       /** Фильтр по целевому элементу */

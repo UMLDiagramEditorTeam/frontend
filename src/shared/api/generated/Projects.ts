@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ErrorResponse,
   ForbiddenError,
   InlineResponse2001,
@@ -25,7 +25,9 @@ import {
   WindowCreate,
   WindowUpdate,
 } from './data-contracts';
-import { ContentType, HttpClient, RequestParams } from './http-client';
+import { HttpClient, ContentType } from './http-client';
+import type { RequestParams } from './http-client';
+
 
 export class Projects<
   SecurityDataType = unknown,
@@ -186,7 +188,8 @@ export class Projects<
        */
       limit?: number;
       /** Фильтр по типу окна */
-      type?: 'class_diagram' | 'sequence_diagram';
+      type?: 'class_diagram' | 'sequence_diagram' | 'use_case_diagram';
+    //уточнить типы
     },
     params: RequestParams = {},
   ) =>
