@@ -3,18 +3,26 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
 import logo from '../../../../../public/logo.png';
+
 import { routePaths } from '@/shared/config/routePaths.ts';
+import { login } from '@/features/auth/model/login';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
 
-  const onFinish = (values: {
-    username: string;
+  const onFinish = async (values: {
+    email: string;
     password: string;
     remember: boolean;
   }) => {
-    console.log(values);
-    navigate(routePaths.projects);
+    try {
+      const user = await login(values.email, values.password);
+      console.log('Успешный вход:', user);
+      navigate(routePaths.projects);
+    } catch (error) {
+      console.error('Ошибка входа:', error);
+      // добавить уведомление
+    }
   };
 
   return (
@@ -30,8 +38,8 @@ export const LoginPage = () => {
           size="large"
         >
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Пожалуйста, введите логин!' }]}
+            name="email"
+            rules={[{ required: true, message: 'Пожалуйста, введите email!' }]}
           >
             <Input prefix={<UserOutlined />} placeholder="Логин" />
           </Form.Item>

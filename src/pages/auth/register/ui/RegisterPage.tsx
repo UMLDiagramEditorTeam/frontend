@@ -2,17 +2,25 @@ import { Button, Card, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 
+import { register } from '@/features/auth/model/register';
+
 export const RegisterPage = () => {
   const navigate = useNavigate();
 
-  const onFinish = (values: {
+  const onFinish = async (values: {
     email: string;
-    username: string;
+    name: string;
     password: string;
     confirm: string;
   }) => {
-    console.log(values);
-    navigate('/projects');
+    try {
+      const user = await register(values.name, values.email, values.password);
+      console.log('Успешная регистрация:', user);
+      navigate('/projects');
+    } catch (error) {
+      console.error('Ошибка регистрации:', error);
+      // добавить уведомление
+    }
   };
 
   return (
@@ -42,8 +50,8 @@ export const RegisterPage = () => {
           </Form.Item>
 
           <Form.Item
-            name="username"
-            label="Логин"
+            name="name"
+            label="логин"
             rules={[{ required: true, message: 'Введите логин!' }]}
           >
             <Input prefix={<UserOutlined />} placeholder="Логин" />
