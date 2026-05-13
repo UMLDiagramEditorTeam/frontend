@@ -3,9 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 
 import { register } from '@/features/auth/model/register';
+import { useAuthError } from '@/features/auth/model/useAuthError';
+import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const { errorState, handleError, clearError } = useAuthError();
+
+  const performRegister = async (values: {
+    email: string;
+    name: string;
+    password: string;
+    confirm: string;
+  }) => {
+    const user = await register(values.name, values.email, values.password);
+    console.log('Успешная регистрация:', user);
+    navigate('/projects');
+  };
 
   const onFinish = async (values: {
     email: string;
@@ -14,12 +28,9 @@ export const RegisterPage = () => {
     confirm: string;
   }) => {
     try {
-      const user = await register(values.name, values.email, values.password);
-      console.log('Успешная регистрация:', user);
-      navigate('/projects');
+      await performRegister(values);
     } catch (error) {
-      console.error('Ошибка регистрации:', error);
-      // добавить уведомление
+      handleError(error, () => performRegister(values));
     }
   };
 
@@ -42,7 +53,7 @@ export const RegisterPage = () => {
               {
                 type: 'email',
                 required: true,
-                message: 'Введите корректны Email!',
+                message: 'Введите корректный Email!',
               },
             ]}
           >
@@ -51,7 +62,7 @@ export const RegisterPage = () => {
 
           <Form.Item
             name="name"
-            label="логин"
+            label="Логин"
             rules={[{ required: true, message: 'Введите логин!' }]}
           >
             <Input prefix={<UserOutlined />} placeholder="Логин" />
@@ -100,6 +111,8 @@ export const RegisterPage = () => {
           </div>
         </Form>
       </Card>
+
+      <AuthErrorModal errorState={errorState} onClose={clearError} />
     </div>
   );
 };

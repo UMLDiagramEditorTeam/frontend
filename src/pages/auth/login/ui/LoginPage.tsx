@@ -6,9 +6,22 @@ import logo from '../../../../../public/logo.png';
 
 import { routePaths } from '@/shared/config/routePaths.ts';
 import { login } from '@/features/auth/model/login';
+import { useAuthError } from '@/features/auth/model/useAuthError';
+import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { errorState, handleError, clearError } = useAuthError();
+
+  const performLogin = async (values: {
+    email: string;
+    password: string;
+    remember: boolean;
+  }) => {
+    const user = await login(values.email, values.password);
+    console.log('Успешный вход:', user);
+    navigate(routePaths.projects);
+  };
 
   const onFinish = async (values: {
     email: string;
@@ -16,12 +29,9 @@ export const LoginPage = () => {
     remember: boolean;
   }) => {
     try {
-      const user = await login(values.email, values.password);
-      console.log('Успешный вход:', user);
-      navigate(routePaths.projects);
+      await performLogin(values);
     } catch (error) {
-      console.error('Ошибка входа:', error);
-      // добавить уведомление
+      handleError(error, () => performLogin(values));
     }
   };
 
@@ -75,6 +85,8 @@ export const LoginPage = () => {
           </div>
         </Form>
       </Card>
+
+      <AuthErrorModal errorState={errorState} onClose={clearError} />
     </div>
   );
 };
