@@ -2,17 +2,36 @@ import { Button, Card, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 
+import { register } from '@/features/auth/model/register';
+import { useAuthError } from '@/features/auth/model/useAuthError';
+import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
+
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const { errorState, handleError, clearError } = useAuthError();
 
-  const onFinish = (values: {
+  const performRegister = async (values: {
     email: string;
-    username: string;
+    name: string;
     password: string;
     confirm: string;
   }) => {
-    console.log(values);
+    const user = await register(values.name, values.email, values.password);
+    console.log('Успешная регистрация:', user);
     navigate('/projects');
+  };
+
+  const onFinish = async (values: {
+    email: string;
+    name: string;
+    password: string;
+    confirm: string;
+  }) => {
+    try {
+      await performRegister(values);
+    } catch (error) {
+      handleError(error, () => performRegister(values));
+    }
   };
 
   return (
@@ -34,7 +53,7 @@ export const RegisterPage = () => {
               {
                 type: 'email',
                 required: true,
-                message: 'Введите корректны Email!',
+                message: 'Введите корректный Email!',
               },
             ]}
           >
@@ -42,7 +61,7 @@ export const RegisterPage = () => {
           </Form.Item>
 
           <Form.Item
-            name="username"
+            name="name"
             label="Логин"
             rules={[{ required: true, message: 'Введите логин!' }]}
           >
@@ -92,6 +111,8 @@ export const RegisterPage = () => {
           </div>
         </Form>
       </Card>
+
+      <AuthErrorModal errorState={errorState} onClose={clearError} />
     </div>
   );
 };
