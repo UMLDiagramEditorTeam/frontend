@@ -29,14 +29,12 @@ export const ExportPage = () => {
 
   useEffect(() => {
     if (location.state) {
-      // Исправлено: типизация всего объекта
       const { nodes: savedNodes, edges: savedEdges } = location.state as {
         nodes: Node[];
         edges: Edge[];
       };
 
       if (savedNodes) {
-        // Исправлено: убрали 'any', заменили на Node
         const cleanNodes = savedNodes.map((node: Node) => ({
           ...node,
           selected: false,
@@ -86,7 +84,6 @@ export const ExportPage = () => {
     message.info('Подготовка диаграммы...');
 
     try {
-      // Фикс для PDF: принудительно красим линии
       const edgePaths = exportRef.current.querySelectorAll(
         '.react-flow__edge-path',
       );
