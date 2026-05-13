@@ -74,7 +74,17 @@ const UMLNode = ({
         'class-node': type !== 'interfaceNode',
         selected: selected,
       })}
-      style={{ backgroundColor: data.bgColor || '#fff' }}
+      style={{
+        backgroundColor: data.bgColor || '#fff',
+        minWidth: '150px',
+        minHeight: '80px',
+        border: '2px solid #333',
+        borderRadius: '4px',
+        padding: '0',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        boxSizing: 'border-box',
+        fontFamily: 'sans-serif',
+      }}
     >
       {selected && (
         <div className="node-delete-btn" onClick={handleDelete}>
@@ -116,7 +126,8 @@ const UMLNode = ({
   );
 };
 
-const nodeTypes = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const nodeTypes = {
   classNode: UMLNode,
   interfaceNode: UMLNode,
 };
@@ -285,7 +296,7 @@ export const EditorPage = () => {
           label: type === 'classNode' ? 'NewClass' : 'NewInterface',
           attributes: '',
           methods: '',
-          bgColor: '#fff',
+          bgColor: '#ffffff',
         },
       };
 
@@ -294,6 +305,15 @@ export const EditorPage = () => {
     },
     [reactFlowInstance, setNodes, takeSnapshot],
   );
+
+  const handleExportClick = () => {
+    if (!reactFlowInstance) {
+      message.error('Редактор еще загружается');
+      return;
+    }
+    const flowData = reactFlowInstance.toObject();
+    navigate(routePaths.export, { state: flowData });
+  };
 
   return (
     <div className="editorLayout">
@@ -356,7 +376,7 @@ export const EditorPage = () => {
           </Button>
           <Button
             icon={<DownloadOutlined />}
-            onClick={() => navigate(routePaths.export)}
+            onClick={handleExportClick}
             style={{ marginRight: 8 }}
           >
             Экспорт
