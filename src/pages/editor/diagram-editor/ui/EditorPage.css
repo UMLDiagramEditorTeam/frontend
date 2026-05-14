@@ -205,3 +205,106 @@
     background: #ff7875;
     transform: scale(1.1);
 }
+
+.propertiesPanel {
+    width: 280px;
+    background: #fff;
+    border-left: 1px solid #e8e8e8;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+.propertiesHeader {
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.propertyGroup {
+    margin-bottom: 16px;
+}
+
+.propertyGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #666;
+}
+
+.propertiesEmpty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #999;
+}
+
+@media (min-width: 769px) {
+    .mobileMenuBtn {
+        display: none !important;
+    }
+}
+
+/* === ПЛАНШЕТЫ === */
+
+@media (max-width: 1024px) {
+    .editorSidebar {
+        width: 200px;
+    }
+    .propertiesPanel {
+        width: 240px;
+    }
+}
+
+/* === МОБИЛЬНЫЕ УСТРОЙСТВА === */
+
+@media (max-width: 768px) {
+    .mobileMenuBtn {
+        display: inline-flex !important;
+    }
+
+    .editorSidebar {
+        display: none !important;
+    }
+
+    .editorHeader {
+        height: auto;
+        padding: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .headerCenter, .headerRight {
+        margin-right: 0;
+    }
+
+    .headerRight .ant-btn span:not(.anticon) {
+        display: none;
+    }
+
+    .editorContainer {
+        flex-direction: column;
+        position: relative;
+    }
+
+    .propertiesPanel {
+        width: 100%;
+        height: 40vh;
+        border-left: none;
+        border-top: 1px solid #e8e8e8;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 5;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    }
+
+    .editorCanvas {
+        height: 60vh;
+        flex: none;
+    }
+}

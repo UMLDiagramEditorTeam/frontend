@@ -11,6 +11,7 @@ import { ProfilePage } from '@/pages/profile';
 import { CodeUploadPage } from '@/pages/code-upload';
 import { ExportPage } from '@/pages/export';
 import { CodeGenerationPage } from '@/pages/code-generation';
+import { NotFoundPage } from '@/pages/not-found';
 
 import { PrivateRoute } from './PrivateRoute';
 
@@ -23,19 +24,16 @@ export const router = createBrowserRouter([
     path: routePaths.register,
     element: <RegisterPage />,
   },
+
   {
-    path: routePaths.codeUpload,
-    element: (
-      <PrivateRoute>
-        <CodeUploadPage />
-      </PrivateRoute>
-    ),
+    path: '*',
+    element: <NotFoundPage />,
   },
 
   // private
   {
     path: '/',
-    element: <MainPage />, 
+    element: <MainPage />,
   },
   {
     path: routePaths.projects,
@@ -63,10 +61,26 @@ export const router = createBrowserRouter([
   },
   {
     path: routePaths.export,
-    element: <ExportPage />,
+    element: (
+      <PrivateRoute>
+        <ExportPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: routePaths.codeGeneration,
-    element: <CodeGenerationPage />,
+    element: (
+      <PrivateRoute>
+        <CodeGenerationPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: routePaths.codeUpload,
+    element: (
+      <PrivateRoute>
+        <CodeUploadPage />
+      </PrivateRoute>
+    ),
   },
 ]);

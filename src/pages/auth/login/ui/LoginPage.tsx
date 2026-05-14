@@ -1,9 +1,7 @@
-import { Button, Form, Card, Input, Checkbox } from 'antd';
+import { Button, Form, Card, Input, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
-import logo from '../../../../../public/logo.png';
-
 import { routePaths } from '@/shared/config/routePaths.ts';
 import { login } from '@/features/auth/model/login';
 import { useAuthError } from '@/features/auth/model/useAuthError';
@@ -35,10 +33,15 @@ export const LoginPage = () => {
     }
   };
 
+  const handleForgotPassword = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    message.info('Функционал пока в разработке');
+  };
+
   return (
     <div className="authContainer">
       <div className="authLogoWrapper">
-        <img src={logo} alt="Logo" className="authLogoImg" />
+        <img src="/logo.png" alt="Logo" className="authLogoImg" />
       </div>
       <Card title="Вход в систему" className="authCard">
         <Form
@@ -69,7 +72,11 @@ export const LoginPage = () => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Запомнить меня</Checkbox>
             </Form.Item>
-            <a style={{ float: 'right' }} href="">
+            <a
+              style={{ float: 'right' }}
+              href="#"
+              onClick={handleForgotPassword}
+            >
               Забыли пароль?
             </a>
           </Form.Item>

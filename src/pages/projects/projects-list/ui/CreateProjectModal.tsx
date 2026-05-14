@@ -3,20 +3,31 @@ import { Modal, Input, Button } from 'antd';
 import { AppstoreOutlined, ApartmentOutlined } from '@ant-design/icons';
 import './CreateProjectModal.css';
 
+interface ProjectData {
+  name: string;
+  type: string;
+}
+
 interface Props {
   open: boolean;
   onClose: () => void;
   onCreate: (name: string, type: string) => void;
+  onUpdate?: (name: string, type: string) => void;
+  initialData?: ProjectData;
 }
 
 export const CreateProjectModal: React.FC<Props> = ({
   open,
   onClose,
   onCreate,
+  onUpdate,
+  initialData,
 }) => {
   const [step, setStep] = useState(1);
-  const [name, setName] = useState('');
-  const [type, setType] = useState('');
+  const [name, setName] = useState(initialData?.name || '');
+  const [type, setType] = useState(initialData?.type || '');
+
+  const isEditMode = !!initialData;
 
   const handleNext = () => {
     if (name.trim()) {
@@ -28,14 +39,21 @@ export const CreateProjectModal: React.FC<Props> = ({
     setStep(1);
   };
 
-  const handleCreate = () => {
-    if (type) {
+  const handleSubmit = () => {
+    if (!type) return;
+
+    if (isEditMode && onUpdate) {
+      onUpdate(name, type);
+    } else {
       onCreate(name, type);
-      // Сбрасываем состояние
-      setStep(1);
-      setName('');
-      setType('');
-      onClose();
+    }
+    handleClose();
+  };
+
+  const handleQuickSave = () => {
+    if (name.trim() && type && onUpdate) {
+      onUpdate(name, type);
+      handleClose();
     }
   };
 
@@ -48,7 +66,13 @@ export const CreateProjectModal: React.FC<Props> = ({
 
   return (
     <Modal
-      title={step === 1 ? 'Создать новый проект' : 'Выберите тип диаграммы'}
+      title={
+        isEditMode
+          ? 'Редактировать проект'
+          : step === 1
+            ? 'Создать новый проект'
+            : 'Выберите тип диаграммы'
+      }
       open={open}
       onCancel={handleClose}
       footer={null}
@@ -70,9 +94,24 @@ export const CreateProjectModal: React.FC<Props> = ({
 
           <div className="modalActions">
             <Button onClick={handleClose}>Отменить</Button>
-            <Button type="primary" onClick={handleNext} disabled={!name.trim()}>
-              Далее
-            </Button>
+
+            {isEditMode ? (
+              <Button
+                type="primary"
+                onClick={handleQuickSave}
+                disabled={!name.trim()}
+              >
+                Сохранить
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                onClick={handleNext}
+                disabled={!name.trim()}
+              >
+                Далее
+              </Button>
+            )}
           </div>
         </div>
       ) : (
@@ -102,8 +141,8 @@ export const CreateProjectModal: React.FC<Props> = ({
 
           <div className="modalActions">
             <Button onClick={handleBack}>Назад</Button>
-            <Button type="primary" onClick={handleCreate} disabled={!type}>
-              Создать проект
+            <Button type="primary" onClick={handleSubmit} disabled={!type}>
+              {isEditMode ? 'Сохранить' : 'Создать проект'}
             </Button>
           </div>
         </div>

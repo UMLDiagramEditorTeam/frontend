@@ -4,11 +4,11 @@ export const routePaths = {
   register: '/register',
 
   projects: '/projects',
-
   editor: '/projects/:projectId',
-  codeUpload: '/import-code',
-  export: '/export',
-  codeGeneration: '/generate-code',
+
+  export: '/projects/:projectId/export',
+  codeGeneration: '/projects/:projectId/generate-code',
+  codeUpload: '/projects/:projectId/import-code',
 
   profile: '/profile',
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button, Dropdown, Spin, message, Input } from 'antd';
+import { Button, Dropdown, Spin, message, Input, MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   FolderAddOutlined,
@@ -31,6 +31,8 @@ export const ProjectsPage = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -57,9 +59,39 @@ export const ProjectsPage = () => {
     message.success('Проект создан!');
   };
 
+  const handleUpdateProject = (name: string, type: string) => {
+    if (!editingProject) return;
+
+    setProjects(
+      projects.map((p) => {
+        if (p.id === editingProject.id) {
+          return {
+            ...p,
+            name,
+            diagramType: type,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return p;
+      }),
+    );
+    message.success('Проект обновлен');
+    setEditingProject(null);
+  };
+
   const handleDelete = (id: string | number) => {
     setProjects(projects.filter((p) => p.id !== id));
     message.success('Проект удален');
+  };
+
+  const openEditModal = (project: Project) => {
+    setEditingProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setEditingProject(null);
   };
 
   const filteredProjects = useMemo(() => {
@@ -84,11 +116,7 @@ export const ProjectsPage = () => {
   };
 
   const filterMenuItems = [
-    {
-      key: 'all',
-      label: 'Все типы',
-      onClick: () => setActiveFilter(null),
-    },
+    { key: 'all', label: 'Все типы', onClick: () => setActiveFilter(null) },
     {
       key: 'class',
       label: 'Class Diagram',
@@ -101,7 +129,7 @@ export const ProjectsPage = () => {
     },
   ];
 
-  const getCardMenu = (projectId: string | number) => ({
+  const getCardMenu = (project: Project): MenuProps => ({
     items: [
       { key: 'edit', label: 'Редактировать', icon: <EditOutlined /> },
       {
@@ -111,9 +139,11 @@ export const ProjectsPage = () => {
         danger: true,
       },
     ],
-    onClick: (info: { key: string }) => {
-      if (info.key === 'delete') handleDelete(projectId);
-      else if (info.key === 'edit') handleOpenEditor(projectId);
+    onClick: ({ key, domEvent }) => {
+      domEvent.stopPropagation();
+
+      if (key === 'delete') handleDelete(project.id);
+      else if (key === 'edit') openEditModal(project);
     },
   });
 
@@ -154,7 +184,6 @@ export const ProjectsPage = () => {
         </div>
 
         <div className="headerActions">
-          {/* --- Поиск --- */}
           {isSearchVisible ? (
             <Input
               placeholder="Поиск..."
@@ -162,7 +191,7 @@ export const ProjectsPage = () => {
               onChange={handleSearchChange}
               onBlur={() => {
                 if (!searchQuery) setIsSearchVisible(false);
-              }} // Скрывать, если пусто
+              }}
               autoFocus
               className="headerSearchInput"
               suffix={
@@ -291,7 +320,7 @@ export const ProjectsPage = () => {
                     </span>
                   </div>
 
-                  <Dropdown menu={getCardMenu(project.id)} trigger={['click']}>
+                  <Dropdown menu={getCardMenu(project)} trigger={['click']}>
                     <MoreOutlined
                       className="cardMenu"
                       onClick={(e) => e.stopPropagation()}
@@ -305,9 +334,16 @@ export const ProjectsPage = () => {
       </main>
 
       <CreateProjectModal
+        key={editingProject?.id || 'new'}
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleModalClose}
         onCreate={handleCreateProject}
+        onUpdate={handleUpdateProject}
+        initialData={
+          editingProject
+            ? { name: editingProject.name, type: editingProject.diagramType }
+            : undefined
+        }
       />
     </div>
   );

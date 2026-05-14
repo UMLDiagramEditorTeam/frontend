@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button, message } from 'antd';
 import {
   FileImageOutlined,
@@ -15,10 +15,12 @@ import 'reactflow/dist/style.css';
 import '@/pages/editor/diagram-editor/ui/EditorPage.css';
 import './ExportPage.css';
 import { nodeTypes } from '@/pages/editor/diagram-editor/ui/EditorPage';
+import { routePaths } from '@/shared/config/routePaths';
 
 export const ExportPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { projectId } = useParams<{ projectId: string }>();
   const exportRef = useRef<HTMLDivElement>(null);
 
   const [selectedFormat, setSelectedFormat] = useState('png');
@@ -28,6 +30,11 @@ export const ExportPage = () => {
   const [edges, setEdges] = useEdgesState([]);
 
   useEffect(() => {
+    if (!projectId) {
+      message.error('Проект не найден');
+      navigate(routePaths.projects);
+      return;
+    }
     if (location.state) {
       const { nodes: savedNodes, edges: savedEdges } = location.state as {
         nodes: Node[];
@@ -47,7 +54,7 @@ export const ExportPage = () => {
     } else {
       message.error('Нет данных для экспорта');
     }
-  }, [location.state, setNodes, setEdges]);
+  }, [projectId, navigate, location.state, setNodes, setEdges]);
 
   const formats = [
     {
