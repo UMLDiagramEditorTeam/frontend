@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react';
 import clsx from 'clsx';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Tooltip, message, Input, Divider } from 'antd';
-import { routePaths } from '@/shared/config/routePaths';
+import { Button, Tooltip, message, Input, Divider, Drawer } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
 import { DownloadOutlined } from '@ant-design/icons';
 import {
   SaveOutlined,
@@ -136,6 +136,7 @@ export const EditorPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -312,7 +313,33 @@ export const EditorPage = () => {
       return;
     }
     const flowData = reactFlowInstance.toObject();
-    navigate(routePaths.export, { state: flowData });
+    navigate(`/projects/${projectId}/export`, { state: flowData });
+  };
+
+  const handleAddNode = (type: string) => {
+    if (!reactFlowInstance) return;
+
+    const { x, y } = reactFlowInstance.screenToFlowPosition({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
+
+    const newNode: Node<UMLNodeData> = {
+      id: `${type}-${Date.now()}`,
+      type,
+      position: { x, y },
+      data: {
+        label: type === 'classNode' ? 'NewClass' : 'NewInterface',
+        attributes: '',
+        methods: '',
+        bgColor: '#ffffff',
+      },
+    };
+
+    setNodes((nds) => nds.concat(newNode));
+    takeSnapshot();
+
+    setIsDrawerVisible(false);
   };
 
   return (
@@ -326,6 +353,11 @@ export const EditorPage = () => {
               type="text"
             />
           </Tooltip>
+          <Button
+            className="mobileMenuBtn"
+            icon={<MenuOutlined />}
+            onClick={() => setIsDrawerVisible(true)}
+          />
           <div className="projectTitle">Проект #{projectId}</div>
         </div>
 
@@ -362,14 +394,14 @@ export const EditorPage = () => {
         <div className="headerRight">
           <Button
             icon={<CodeOutlined />}
-            onClick={() => navigate(routePaths.codeGeneration)}
+            onClick={() => navigate(`/projects/${projectId}/generate-code`)}
             style={{ marginRight: 8 }}
           >
             Генерация кода
           </Button>
           <Button
             icon={<UploadOutlined />}
-            onClick={() => navigate(routePaths.codeUpload)}
+            onClick={() => navigate(`/projects/${projectId}/import-code`)}
             style={{ marginRight: 8 }}
           >
             Загрузить код
@@ -489,6 +521,42 @@ export const EditorPage = () => {
           )}
         </aside>
       </div>
+      <Drawer
+        title="Элементы"
+        placement="left"
+        open={isDrawerVisible}
+        onClose={() => setIsDrawerVisible(false)}
+        width={250}
+        mask={true}
+      >
+        <div
+          className="elementItem"
+          draggable
+          onDragStart={(e) =>
+            e.dataTransfer.setData('application/reactflow', 'classNode')
+          }
+          onClick={() => handleAddNode('classNode')}
+          style={{ cursor: 'pointer' }}
+        >
+          <BorderOutlined className="elementIcon" /> <span>Класс</span>
+        </div>
+
+        <div
+          className="elementItem"
+          draggable
+          onDragStart={(e) =>
+            e.dataTransfer.setData('application/reactflow', 'interfaceNode')
+          }
+          onClick={() => handleAddNode('interfaceNode')}
+          style={{ cursor: 'pointer' }}
+        >
+          <AppstoreAddOutlined className="elementIcon" /> <span>Интерфейс</span>
+        </div>
+
+        <div className="sidebarHint" style={{ marginTop: 20 }}>
+          Нажмите на элемент, чтобы добавить его на холст.
+        </div>
+      </Drawer>
     </div>
   );
 };
