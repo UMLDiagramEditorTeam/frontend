@@ -6,6 +6,9 @@ export const routePaths = {
   projects: '/projects',
 
   editor: '/projects/:projectId',
+
+  projectEditor: (projectId: string | number) => `/projects/${projectId}`,
+
   codeUpload: '/import-code',
   export: '/export',
   codeGeneration: '/generate-code',

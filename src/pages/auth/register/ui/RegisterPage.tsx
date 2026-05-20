@@ -1,32 +1,38 @@
+import { useState } from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
+import '../../AuthPage.css';
 
-import { register } from '@/features/auth/model/register';
+import { routePaths } from '@/shared/config/routePaths.ts';
+import { useAuth } from '@/app/providers/auth-context';
 import { useAuthError } from '@/features/auth/model/useAuthError';
 import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
+interface RegisterFormValues {
+  email: string;
+  name: string;
+  password: string;
+  confirm: string;
+}
+
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const { errorState, handleError, clearError } = useAuthError();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const performRegister = async (values: {
-    email: string;
-    name: string;
-    password: string;
-    confirm: string;
-  }) => {
-    const user = await register(values.name, values.email, values.password);
-    console.log('Успешная регистрация:', user);
-    navigate('/projects');
+  const performRegister = async (values: RegisterFormValues) => {
+    setIsSubmitting(true);
+    try {
+      await register(values.name, values.email, values.password);
+      navigate(routePaths.projects);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const onFinish = async (values: {
-    email: string;
-    name: string;
-    password: string;
-    confirm: string;
-  }) => {
+  const onFinish = async (values: RegisterFormValues) => {
     try {
       await performRegister(values);
     } catch (error) {
@@ -45,6 +51,7 @@ export const RegisterPage = () => {
           onFinish={onFinish}
           size="large"
           layout="vertical"
+          disabled={isSubmitting}
         >
           <Form.Item
             name="email"
@@ -101,13 +108,19 @@ export const RegisterPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="formButton">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="formButton"
+              loading={isSubmitting}
+            >
               Зарегистрироваться
             </Button>
           </Form.Item>
 
           <div className="footerlink">
-            Уже есть аккаунт? <a onClick={() => navigate('/login')}>Войти</a>
+            Уже есть аккаунт?{' '}
+            <a onClick={() => navigate(routePaths.login)}>Войти</a>
           </div>
         </Form>
       </Card>

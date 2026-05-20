@@ -4,9 +4,17 @@ import type { User } from '@/features/auth/model/types'; // моковый юз�
 export type AuthContextType = {
   user: User | null;
   isLoading: boolean;
-  setUser: (user: User | null) => void;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
-export const AuthContext = createContext<AuthContextType>(null!);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error('useAuth must be used within <AuthProvider>');
+  }
+  return ctx;
+};

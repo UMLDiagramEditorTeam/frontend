@@ -1,33 +1,37 @@
+import { useState } from 'react';
 import { Button, Form, Card, Input, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
-import logo from '../../../../../public/logo.png';
 
 import { routePaths } from '@/shared/config/routePaths.ts';
-import { login } from '@/features/auth/model/login';
+import { useAuth } from '@/app/providers/auth-context';
 import { useAuthError } from '@/features/auth/model/useAuthError';
 import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
+interface LoginFormValues {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const { errorState, handleError, clearError } = useAuthError();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const performLogin = async (values: {
-    email: string;
-    password: string;
-    remember: boolean;
-  }) => {
-    const user = await login(values.email, values.password);
-    console.log('Успешный вход:', user);
-    navigate(routePaths.projects);
+  const performLogin = async (values: LoginFormValues) => {
+    setIsSubmitting(true);
+    try {
+      await login(values.email, values.password);
+      navigate(routePaths.projects);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const onFinish = async (values: {
-    email: string;
-    password: string;
-    remember: boolean;
-  }) => {
+  const onFinish = async (values: LoginFormValues) => {
     try {
       await performLogin(values);
     } catch (error) {
@@ -38,7 +42,7 @@ export const LoginPage = () => {
   return (
     <div className="authContainer">
       <div className="authLogoWrapper">
-        <img src={logo} alt="Logo" className="authLogoImg" />
+        <img src="/logo.png" alt="Logo" className="authLogoImg" />
       </div>
       <Card title="Вход в систему" className="authCard">
         <Form
@@ -46,6 +50,7 @@ export const LoginPage = () => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           size="large"
+          disabled={isSubmitting}
         >
           <Form.Item
             name="email"
@@ -69,19 +74,31 @@ export const LoginPage = () => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Запомнить меня</Checkbox>
             </Form.Item>
-            <a style={{ float: 'right' }} href="">
+            {/* TODO: forgot-password flow */}
+            <a
+              style={{ float: 'right', cursor: 'pointer' }}
+              onClick={(e) => e.preventDefault()}
+            >
               Забыли пароль?
             </a>
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="formButton">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="formButton"
+              loading={isSubmitting}
+            >
               Войти
             </Button>
           </Form.Item>
 
           <div className="footerlink">
-            Или <a onClick={() => navigate('/register')}>зарегистрироваться</a>
+            Или{' '}
+            <a onClick={() => navigate(routePaths.register)}>
+              зарегистрироваться
+            </a>
           </div>
         </Form>
       </Card>

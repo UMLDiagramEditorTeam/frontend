@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { Button, Dropdown, Spin, message, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -17,10 +18,43 @@ import './ProjectsPage.css';
 import { CreateProjectModal } from './CreateProjectModal';
 import { routePaths } from '@/shared/config/routePaths.ts';
 
+// TODO: вынести в features/projects/model/diagramTypes.ts вместе с
+// появлением фича-папки под проекты. Сейчас CreateProjectModal импортирует конфиг отсюда
+
+export const DIAGRAM_TYPES = {
+  CLASS: 'Class Diagram',
+  SEQUENCE: 'Sequence Diagram',
+} as const;
+
+export type DiagramType = (typeof DIAGRAM_TYPES)[keyof typeof DIAGRAM_TYPES];
+
+interface DiagramConfig {
+  label: DiagramType;
+  color: string;
+  icon: ReactNode;
+  description: string;
+}
+
+/* eslint-disable react-refresh/only-export-components */
+export const DIAGRAM_CONFIG: Record<DiagramType, DiagramConfig> = {
+  [DIAGRAM_TYPES.CLASS]: {
+    label: DIAGRAM_TYPES.CLASS,
+    color: '#1890ff',
+    icon: <AppstoreOutlined />,
+    description: 'Structure & relationships',
+  },
+  [DIAGRAM_TYPES.SEQUENCE]: {
+    label: DIAGRAM_TYPES.SEQUENCE,
+    color: '#52c41a',
+    icon: <ApartmentOutlined />,
+    description: 'Interactions over time',
+  },
+};
+
 interface Project {
   id: string | number;
   name: string;
-  diagramType: string;
+  diagramType: DiagramType;
   updatedAt: string;
 }
 
@@ -33,7 +67,7 @@ export const ProjectsPage = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<DiagramType | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -43,13 +77,13 @@ export const ProjectsPage = () => {
   }, []);
 
   const handleOpenEditor = (projectId: string | number) => {
-    navigate(`/projects/${projectId}`);
+    navigate(routePaths.projectEditor(projectId));
   };
 
-  const handleCreateProject = (name: string, type: string) => {
+  const handleCreateProject = (name: string, type: DiagramType) => {
     const newProject: Project = {
       id: Date.now(),
-      name: name,
+      name,
       diagramType: type,
       updatedAt: new Date().toISOString(),
     };
@@ -89,16 +123,11 @@ export const ProjectsPage = () => {
       label: 'Все типы',
       onClick: () => setActiveFilter(null),
     },
-    {
-      key: 'class',
-      label: 'Class Diagram',
-      onClick: () => setActiveFilter('Class Diagram'),
-    },
-    {
-      key: 'sequence',
-      label: 'Sequence Diagram',
-      onClick: () => setActiveFilter('Sequence Diagram'),
-    },
+    ...Object.values(DIAGRAM_CONFIG).map((config) => ({
+      key: config.label,
+      label: config.label,
+      onClick: () => setActiveFilter(config.label),
+    })),
   ];
 
   const getCardMenu = (projectId: string | number) => ({
@@ -116,25 +145,6 @@ export const ProjectsPage = () => {
       else if (info.key === 'edit') handleOpenEditor(projectId);
     },
   });
-
-  const getColorByType = (type: string) => {
-    const colors: Record<string, string> = {
-      'Class Diagram': '#1890ff',
-      'Sequence Diagram': '#52c41a',
-    };
-    return colors[type] || '#faad14';
-  };
-
-  const getIconByType = (type: string) => {
-    switch (type) {
-      case 'Class Diagram':
-        return <AppstoreOutlined />;
-      case 'Sequence Diagram':
-        return <ApartmentOutlined />;
-      default:
-        return <FolderAddOutlined />;
-    }
-  };
 
   const getProjectsWord = (count: number): string => {
     const lastTwo = Math.abs(count) % 100;
@@ -154,7 +164,6 @@ export const ProjectsPage = () => {
         </div>
 
         <div className="headerActions">
-          {/* --- Поиск --- */}
           {isSearchVisible ? (
             <Input
               placeholder="Поиск..."
@@ -162,7 +171,7 @@ export const ProjectsPage = () => {
               onChange={handleSearchChange}
               onBlur={() => {
                 if (!searchQuery) setIsSearchVisible(false);
-              }} // Скрывать, если пусто
+              }}
               autoFocus
               className="headerSearchInput"
               suffix={
@@ -267,38 +276,42 @@ export const ProjectsPage = () => {
             </div>
 
             <div className="projectGrid">
-              {filteredProjects.map((project) => (
-                <div
-                  className="projectCard"
-                  key={project.id}
-                  onClick={() => handleOpenEditor(project.id)}
-                >
+              {filteredProjects.map((project) => {
+                const config = DIAGRAM_CONFIG[project.diagramType];
+                return (
                   <div
-                    className="cardThumbnail"
-                    style={{
-                      backgroundColor: getColorByType(project.diagramType),
-                    }}
+                    className="projectCard"
+                    key={project.id}
+                    onClick={() => handleOpenEditor(project.id)}
                   >
-                    {getIconByType(project.diagramType)}
-                  </div>
+                    <div
+                      className="cardThumbnail"
+                      style={{ backgroundColor: config.color }}
+                    >
+                      {config.icon}
+                    </div>
 
-                  <div className="cardBody">
-                    <div className="cardTitle">{project.name}</div>
-                    <span className="diagramTag">{project.diagramType}</span>
-                    <span className="cardDate">
-                      Последнее изменение:{' '}
-                      {new Date(project.updatedAt).toLocaleDateString()}
-                    </span>
-                  </div>
+                    <div className="cardBody">
+                      <div className="cardTitle">{project.name}</div>
+                      <span className="diagramTag">{project.diagramType}</span>
+                      <span className="cardDate">
+                        Последнее изменение:{' '}
+                        {new Date(project.updatedAt).toLocaleDateString()}
+                      </span>
+                    </div>
 
-                  <Dropdown menu={getCardMenu(project.id)} trigger={['click']}>
-                    <MoreOutlined
-                      className="cardMenu"
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </Dropdown>
-                </div>
-              ))}
+                    <Dropdown
+                      menu={getCardMenu(project.id)}
+                      trigger={['click']}
+                    >
+                      <MoreOutlined
+                        className="cardMenu"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </Dropdown>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}
