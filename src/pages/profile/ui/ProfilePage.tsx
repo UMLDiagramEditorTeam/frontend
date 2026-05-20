@@ -48,8 +48,6 @@ export const ProfilePage = () => {
     performLogout().catch((error) => handleError(error, performLogout));
   };
 
-  // PrivateRoute гарантирует, что user не null на этой странице.
-  // Но TS этого не знает — страхуемся.
   if (!user) return null;
 
   return (
