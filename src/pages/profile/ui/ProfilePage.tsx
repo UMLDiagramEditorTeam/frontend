@@ -16,8 +16,7 @@ import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
 const { Title, Text } = Typography;
 
-// форматирование даты к виду "15 января 2024"
-// если бэк отдаст не-ISO — возвращаем как есть, чтобы не сломать рендер
+// форматирование даты, если бэк отдаст не-ISO - то как есть чтобы не ломать рендер
 const formatJoinDate = (raw: string): string => {
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return raw;
