@@ -1,0 +1,46 @@
+.notFoundLayout {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.notFoundCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 48px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.notFoundIcon {
+    font-size: 64px;
+    color: #ff4d4f;
+    margin-bottom: 24px;
+}
+
+.notFoundTitle {
+    font-size: 80px;
+    font-weight: 700;
+    color: #262626;
+    margin: 0;
+    line-height: 1;
+}
+
+.notFoundSubtitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #595959;
+    margin: 16px 0 8px;
+}
+
+.notFoundDescription {
+    color: #8c8c8c;
+    margin-bottom: 32px;
+    font-size: 14px;
+    line-height: 1.5;
+}

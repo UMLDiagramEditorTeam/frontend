@@ -4,7 +4,6 @@ export const routePaths = {
   register: '/register',
 
   projects: '/projects',
-
   editor: '/projects/:projectId',
 
   projectEditor: (projectId: string | number) => `/projects/${projectId}`,

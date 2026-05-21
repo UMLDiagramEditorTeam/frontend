@@ -151,3 +151,33 @@
     border-top: 1px solid #f0f0f0;
     padding-top: 24px;
 }
+
+.export-diagram-container .react-flow__handle {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 10px !important;
+    height: 10px !important;
+}
+
+.export-diagram-container .react-flow__edges {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+.export-diagram-container .react-flow__edge-path {
+    stroke: #333 !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+.export-diagram-container .react-flow__arrowhead {
+    fill: #333 !important;
+}
+
+.export-diagram-container .react-flow__edge.animated path {
+    stroke-dasharray: 5 !important;
+    animation: none !important;
+}
