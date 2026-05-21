@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button, Form, Card, Input, Checkbox } from 'antd';
+import { useState, type MouseEvent } from 'react';
+import { Button, Form, Card, Input, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import '../../AuthPage.css';
@@ -39,6 +39,11 @@ export const LoginPage = () => {
     }
   };
 
+  const handleForgotPassword = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    message.info('Функционал пока в разработке');
+  };
+
   return (
     <div className="authContainer">
       <div className="authLogoWrapper">
@@ -74,10 +79,10 @@ export const LoginPage = () => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Запомнить меня</Checkbox>
             </Form.Item>
-            {/* TODO: forgot-password flow */}
             <a
-              style={{ float: 'right', cursor: 'pointer' }}
-              onClick={(e) => e.preventDefault()}
+              style={{ float: 'right' }}
+              href="#"
+              onClick={handleForgotPassword}
             >
               Забыли пароль?
             </a>

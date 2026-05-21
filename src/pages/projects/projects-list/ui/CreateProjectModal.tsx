@@ -6,16 +6,33 @@ import { DIAGRAM_CONFIG, type DiagramType } from './ProjectsPage';
 
 type Step = 'name' | 'type';
 
+interface ProjectData {
+  name: string;
+  type: DiagramType;
+}
+
 interface Props {
   open: boolean;
   onClose: () => void;
   onCreate: (name: string, type: DiagramType) => void;
+  onUpdate?: (name: string, type: DiagramType) => void;
+  initialData?: ProjectData;
 }
 
-export const CreateProjectModal = ({ open, onClose, onCreate }: Props) => {
+export const CreateProjectModal = ({
+  open,
+  onClose,
+  onCreate,
+  onUpdate,
+  initialData,
+}: Props) => {
   const [step, setStep] = useState<Step>('name');
-  const [name, setName] = useState('');
-  const [type, setType] = useState<DiagramType | null>(null);
+  const [name, setName] = useState(initialData?.name ?? '');
+  const [type, setType] = useState<DiagramType | null>(
+    initialData?.type ?? null,
+  );
+
+  const isEditMode = !!initialData;
 
   const resetState = () => {
     setStep('name');
@@ -33,22 +50,36 @@ export const CreateProjectModal = ({ open, onClose, onCreate }: Props) => {
     setStep('name');
   };
 
-  const handleCreate = () => {
-    if (!type) return;
-    onCreate(name, type);
-    resetState();
-    onClose();
-  };
-
   const handleClose = () => {
     resetState();
     onClose();
   };
 
+  const handleSubmit = () => {
+    if (!type) return;
+    if (isEditMode && onUpdate) {
+      onUpdate(name, type);
+    } else {
+      onCreate(name, type);
+    }
+    handleClose();
+  };
+
+  const handleQuickSave = () => {
+    if (name.trim() && type && onUpdate) {
+      onUpdate(name, type);
+      handleClose();
+    }
+  };
+
   return (
     <Modal
       title={
-        step === 'name' ? 'Создать новый проект' : 'Выберите тип диаграммы'
+        isEditMode
+          ? 'Редактировать проект'
+          : step === 'name'
+            ? 'Создать новый проект'
+            : 'Выберите тип диаграммы'
       }
       open={open}
       onCancel={handleClose}
@@ -71,9 +102,23 @@ export const CreateProjectModal = ({ open, onClose, onCreate }: Props) => {
 
           <div className="modalActions">
             <Button onClick={handleClose}>Отменить</Button>
-            <Button type="primary" onClick={handleNext} disabled={!name.trim()}>
-              Далее
-            </Button>
+            {isEditMode ? (
+              <Button
+                type="primary"
+                onClick={handleQuickSave}
+                disabled={!name.trim()}
+              >
+                Сохранить
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                onClick={handleNext}
+                disabled={!name.trim()}
+              >
+                Далее
+              </Button>
+            )}
           </div>
         </div>
       ) : (
@@ -99,8 +144,8 @@ export const CreateProjectModal = ({ open, onClose, onCreate }: Props) => {
 
           <div className="modalActions">
             <Button onClick={handleBack}>Назад</Button>
-            <Button type="primary" onClick={handleCreate} disabled={!type}>
-              Создать проект
+            <Button type="primary" onClick={handleSubmit} disabled={!type}>
+              {isEditMode ? 'Сохранить' : 'Создать проект'}
             </Button>
           </div>
         </div>

@@ -46,7 +46,6 @@ export const ProfilePage = () => {
   const handleLogoutClick = () => {
     performLogout().catch((error) => handleError(error, performLogout));
   };
-
   if (!user) return null;
 
   return (
