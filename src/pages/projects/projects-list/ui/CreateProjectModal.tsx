@@ -1,47 +1,62 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Input, Button } from 'antd';
-import { AppstoreOutlined, ApartmentOutlined } from '@ant-design/icons';
 import './CreateProjectModal.css';
+
+import { DIAGRAM_CONFIG, type DiagramType } from './ProjectsPage';
+
+type Step = 'name' | 'type';
 
 interface ProjectData {
   name: string;
-  type: string;
+  type: DiagramType;
 }
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onCreate: (name: string, type: string) => void;
-  onUpdate?: (name: string, type: string) => void;
+  onCreate: (name: string, type: DiagramType) => void;
+  onUpdate?: (name: string, type: DiagramType) => void;
   initialData?: ProjectData;
 }
 
-export const CreateProjectModal: React.FC<Props> = ({
+export const CreateProjectModal = ({
   open,
   onClose,
   onCreate,
   onUpdate,
   initialData,
-}) => {
-  const [step, setStep] = useState(1);
-  const [name, setName] = useState(initialData?.name || '');
-  const [type, setType] = useState(initialData?.type || '');
+}: Props) => {
+  const [step, setStep] = useState<Step>('name');
+  const [name, setName] = useState(initialData?.name ?? '');
+  const [type, setType] = useState<DiagramType | null>(
+    initialData?.type ?? null,
+  );
 
   const isEditMode = !!initialData;
 
+  const resetState = () => {
+    setStep('name');
+    setName('');
+    setType(null);
+  };
+
   const handleNext = () => {
     if (name.trim()) {
-      setStep(2);
+      setStep('type');
     }
   };
 
   const handleBack = () => {
-    setStep(1);
+    setStep('name');
+  };
+
+  const handleClose = () => {
+    resetState();
+    onClose();
   };
 
   const handleSubmit = () => {
     if (!type) return;
-
     if (isEditMode && onUpdate) {
       onUpdate(name, type);
     } else {
@@ -57,19 +72,12 @@ export const CreateProjectModal: React.FC<Props> = ({
     }
   };
 
-  const handleClose = () => {
-    setStep(1);
-    setName('');
-    setType('');
-    onClose();
-  };
-
   return (
     <Modal
       title={
         isEditMode
           ? 'Редактировать проект'
-          : step === 1
+          : step === 'name'
             ? 'Создать новый проект'
             : 'Выберите тип диаграммы'
       }
@@ -79,7 +87,7 @@ export const CreateProjectModal: React.FC<Props> = ({
       width={500}
       destroyOnClose
     >
-      {step === 1 ? (
+      {step === 'name' ? (
         <div className="modalStep">
           <p className="modalLabel">
             Название проекта <span className="required">*</span>
@@ -94,7 +102,6 @@ export const CreateProjectModal: React.FC<Props> = ({
 
           <div className="modalActions">
             <Button onClick={handleClose}>Отменить</Button>
-
             {isEditMode ? (
               <Button
                 type="primary"
@@ -117,26 +124,22 @@ export const CreateProjectModal: React.FC<Props> = ({
       ) : (
         <div className="modalStep">
           <div className="typeGrid">
-            <div
-              className={`typeCard ${type === 'Class Diagram' ? 'active' : ''}`}
-              onClick={() => setType('Class Diagram')}
-            >
-              <div className="typeIcon" style={{ backgroundColor: '#1890ff' }}>
-                <AppstoreOutlined />
+            {Object.values(DIAGRAM_CONFIG).map((config) => (
+              <div
+                key={config.label}
+                className={`typeCard ${type === config.label ? 'active' : ''}`}
+                onClick={() => setType(config.label)}
+              >
+                <div
+                  className="typeIcon"
+                  style={{ backgroundColor: config.color }}
+                >
+                  {config.icon}
+                </div>
+                <h4>{config.label}</h4>
+                <p>{config.description}</p>
               </div>
-              <h4>Class Diagram</h4>
-              <p>Structure & relationships</p>
-            </div>
-            <div
-              className={`typeCard ${type === 'Sequence Diagram' ? 'active' : ''}`}
-              onClick={() => setType('Sequence Diagram')}
-            >
-              <div className="typeIcon" style={{ backgroundColor: '#52c41a' }}>
-                <ApartmentOutlined />
-              </div>
-              <h4>Sequence Diagram</h4>
-              <p>Interactions over time</p>
-            </div>
+            ))}
           </div>
 
           <div className="modalActions">
