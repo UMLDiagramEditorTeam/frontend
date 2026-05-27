@@ -1,8 +1,8 @@
-import { mockAuthApi } from '@/shared/api/mock/auth.mock'; // моки
-import type { User } from './types'; // моковый юзер
+import { authApi } from '@/shared/api/client';
+import type { User } from './types';
 
 export const getMe = async (): Promise<User> => {
-  const resp = await mockAuthApi.getAuth();
+  const resp = await authApi.getAuth();
 
   if (!resp.data) {
     throw new Error('Failed to fetch user');

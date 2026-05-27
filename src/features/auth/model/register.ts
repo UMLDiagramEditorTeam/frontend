@@ -1,25 +1,17 @@
-import { mockAuthApi } from '@/shared/api/mock/auth.mock'; // моки
-import { tokenService } from './token';
-import type { User } from './types'; // моковый юзер
+import { authApi } from '@/shared/api/client';
+import type { User } from './types';
 
 export const register = async (
   name: string,
   email: string,
   password: string,
 ): Promise<User> => {
-  const resp = await mockAuthApi.registerCreate({ name, email, password });
+  // от бэка - автологина нет - после регистрации UI должен вести на /login
+  const resp = await authApi.registerCreate({ name, email, password });
 
-  if (!resp.data?.access) {
+  if (!resp.data) {
     throw new Error('Register failed');
   }
 
-  tokenService.set(resp.data.access);
-
-  const meResp = await mockAuthApi.getAuth();
-
-  if (!meResp.data) {
-    throw new Error('Failed to fetch user');
-  }
-
-  return meResp.data;
+  return resp.data;
 };
