@@ -10,7 +10,8 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
+  CodeGenerationResponse,
   ErrorResponse,
   ForbiddenError,
   InlineResponse2001,
@@ -25,9 +26,7 @@ import type {
   WindowCreate,
   WindowUpdate,
 } from './data-contracts';
-import { HttpClient, ContentType } from './http-client';
-import type { RequestParams } from './http-client';
-
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Projects<
   SecurityDataType = unknown,
@@ -99,15 +98,15 @@ export class Projects<
    * @tags Projects
    * @name ProjectsDetail
    * @summary Получить проект по ID
-   * @request GET:/projects/{id}
+   * @request GET:/projects/{project_id}
    * @secure
    */
-  projectsDetail = (id: string, params: RequestParams = {}) =>
+  projectsDetail = (projectId: string, params: RequestParams = {}) =>
     this.request<
       Project,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/projects/${id}`,
+      path: `/projects/${projectId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -119,11 +118,11 @@ export class Projects<
    * @tags Projects
    * @name ProjectsUpdate
    * @summary Обновить данные проекта
-   * @request PUT:/projects/{id}
+   * @request PUT:/projects/{project_id}
    * @secure
    */
   projectsUpdate = (
-    id: string,
+    projectId: string,
     data: ProjectUpdate,
     params: RequestParams = {},
   ) =>
@@ -135,7 +134,7 @@ export class Projects<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/projects/${id}`,
+      path: `/projects/${projectId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -149,15 +148,15 @@ export class Projects<
    * @tags Projects
    * @name ProjectsDelete
    * @summary Удалить проект
-   * @request DELETE:/projects/{id}
+   * @request DELETE:/projects/{project_id}
    * @secure
    */
-  projectsDelete = (id: string, params: RequestParams = {}) =>
+  projectsDelete = (projectId: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/projects/${id}`,
+      path: `/projects/${projectId}`,
       method: 'DELETE',
       secure: true,
       ...params,
@@ -168,7 +167,7 @@ export class Projects<
    * @tags Windows
    * @name WindowsList
    * @summary Получить все окна проекта
-   * @request GET:/projects/{projectId}/windows
+   * @request GET:/projects/{project_id}/windows
    * @secure
    */
   windowsList = (
@@ -188,8 +187,7 @@ export class Projects<
        */
       limit?: number;
       /** Фильтр по типу окна */
-      type?: 'class_diagram' | 'sequence_diagram' | 'use_case_diagram';
-    //уточнить типы
+      type?: 'class_diagram' | 'sequence_diagram';
     },
     params: RequestParams = {},
   ) =>
@@ -210,7 +208,7 @@ export class Projects<
    * @tags Windows
    * @name WindowsCreate
    * @summary Создать новое окно в проекте
-   * @request POST:/projects/{projectId}/windows
+   * @request POST:/projects/{project_id}/windows
    * @secure
    */
   windowsCreate = (
@@ -240,15 +238,19 @@ export class Projects<
    * @tags Windows
    * @name WindowsDetail
    * @summary Получить окно по ID
-   * @request GET:/projects/{projectId}/windows/{id}
+   * @request GET:/projects/{project_id}/windows/{window_id}
    * @secure
    */
-  windowsDetail = (projectId: string, id: string, params: RequestParams = {}) =>
+  windowsDetail = (
+    projectId: string,
+    windowId: string,
+    params: RequestParams = {},
+  ) =>
     this.request<
       Window,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/projects/${projectId}/windows/${id}`,
+      path: `/projects/${projectId}/windows/${windowId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -260,12 +262,12 @@ export class Projects<
    * @tags Windows
    * @name WindowsUpdate
    * @summary Обновить данные окна
-   * @request PUT:/projects/{projectId}/windows/{id}
+   * @request PUT:/projects/{project_id}/windows/{window_id}
    * @secure
    */
   windowsUpdate = (
     projectId: string,
-    id: string,
+    windowId: string,
     data: WindowUpdate,
     params: RequestParams = {},
   ) =>
@@ -277,7 +279,7 @@ export class Projects<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/projects/${projectId}/windows/${id}`,
+      path: `/projects/${projectId}/windows/${windowId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -291,17 +293,54 @@ export class Projects<
    * @tags Windows
    * @name WindowsDelete
    * @summary Удалить окно
-   * @request DELETE:/projects/{projectId}/windows/{id}
+   * @request DELETE:/projects/{project_id}/windows/{window_id}
    * @secure
    */
-  windowsDelete = (projectId: string, id: string, params: RequestParams = {}) =>
+  windowsDelete = (
+    projectId: string,
+    windowId: string,
+    params: RequestParams = {},
+  ) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/projects/${projectId}/windows/${id}`,
+      path: `/projects/${projectId}/windows/${windowId}`,
       method: 'DELETE',
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsGenerateCodeCreate
+   * @summary Сгенерировать код по окну
+   * @request POST:/projects/{project_id}/windows/{window_id}/generate_code
+   * @secure
+   */
+  windowsGenerateCodeCreate = (
+    projectId: string,
+    windowId: string,
+    query?: {
+      /** @default "java" */
+      language?: 'java' | 'python';
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      CodeGenerationResponse,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows/${windowId}/generate_code`,
+      method: 'POST',
+      query: query,
+      secure: true,
+      format: 'json',
       ...params,
     });
 }

@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   ConflictError,
   ErrorResponse,
   ForbiddenError,
@@ -18,13 +18,12 @@ import type {
   InternalServerError,
   NotFoundError,
   UnauthorizedError,
+  UpdateUserRolesRequest,
   User,
   UserCreate,
   UserUpdate,
 } from './data-contracts';
-import { HttpClient, ContentType } from './http-client';
-import type { RequestParams } from './http-client';
-
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Users<
   SecurityDataType = unknown,
@@ -99,15 +98,15 @@ export class Users<
    * @tags Users
    * @name UsersDetail
    * @summary Получить пользователя по ID
-   * @request GET:/users/{id}
+   * @request GET:/users/{user_id}
    * @secure
    */
-  usersDetail = (id: string, params: RequestParams = {}) =>
+  usersDetail = (userId: string, params: RequestParams = {}) =>
     this.request<
       User,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/users/${id}`,
+      path: `/users/${userId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -119,10 +118,14 @@ export class Users<
    * @tags Users
    * @name UsersUpdate
    * @summary Обновить данные пользователя
-   * @request PUT:/users/{id}
+   * @request PUT:/users/{user_id}
    * @secure
    */
-  usersUpdate = (id: string, data: UserUpdate, params: RequestParams = {}) =>
+  usersUpdate = (
+    userId: string,
+    data: UserUpdate,
+    params: RequestParams = {},
+  ) =>
     this.request<
       User,
       | UnauthorizedError
@@ -132,7 +135,7 @@ export class Users<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/users/${id}`,
+      path: `/users/${userId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -146,17 +149,47 @@ export class Users<
    * @tags Users
    * @name UsersDelete
    * @summary Удалить пользователя
-   * @request DELETE:/users/{id}
+   * @request DELETE:/users/{user_id}
    * @secure
    */
-  usersDelete = (id: string, params: RequestParams = {}) =>
+  usersDelete = (userId: string, params: RequestParams = {}) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/users/${id}`,
+      path: `/users/${userId}`,
       method: 'DELETE',
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Users
+   * @name RolesPartialUpdate
+   * @summary Обновить роли пользователя
+   * @request PATCH:/users/{user_id}/roles
+   * @secure
+   */
+  rolesPartialUpdate = (
+    userId: string,
+    data: UpdateUserRolesRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      User,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/users/${userId}/roles`,
+      method: 'PATCH',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
       ...params,
     });
 }

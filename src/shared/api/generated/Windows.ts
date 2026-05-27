@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   Class,
   ClassCreate,
   ClassUpdate,
@@ -30,9 +30,7 @@ import type {
   RelationUpdate,
   UnauthorizedError,
 } from './data-contracts';
-import { HttpClient, ContentType } from './http-client';
-import type { RequestParams } from './http-client';
-
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Windows<
   SecurityDataType = unknown,
@@ -43,7 +41,7 @@ export class Windows<
    * @tags Classes
    * @name ClassesList
    * @summary Получить все классы в окне
-   * @request GET:/windows/{windowId}/classes
+   * @request GET:/windows/{window_id}/classes
    * @secure
    */
   classesList = (
@@ -86,7 +84,7 @@ export class Windows<
    * @tags Classes
    * @name ClassesCreate
    * @summary Создать новый класс в окне
-   * @request POST:/windows/{windowId}/classes
+   * @request POST:/windows/{window_id}/classes
    * @secure
    */
   classesCreate = (
@@ -117,15 +115,19 @@ export class Windows<
    * @tags Classes
    * @name ClassesDetail
    * @summary Получить класс по ID
-   * @request GET:/windows/{windowId}/classes/{id}
+   * @request GET:/windows/{window_id}/classes/{class_id}
    * @secure
    */
-  classesDetail = (windowId: string, id: string, params: RequestParams = {}) =>
+  classesDetail = (
+    windowId: string,
+    classId: string,
+    params: RequestParams = {},
+  ) =>
     this.request<
       Class,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/classes/${id}`,
+      path: `/windows/${windowId}/classes/${classId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -137,12 +139,12 @@ export class Windows<
    * @tags Classes
    * @name ClassesUpdate
    * @summary Обновить данные класса
-   * @request PUT:/windows/{windowId}/classes/{id}
+   * @request PUT:/windows/{window_id}/classes/{class_id}
    * @secure
    */
   classesUpdate = (
     windowId: string,
-    id: string,
+    classId: string,
     data: ClassUpdate,
     params: RequestParams = {},
   ) =>
@@ -155,7 +157,7 @@ export class Windows<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/windows/${windowId}/classes/${id}`,
+      path: `/windows/${windowId}/classes/${classId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -169,15 +171,19 @@ export class Windows<
    * @tags Classes
    * @name ClassesDelete
    * @summary Удалить класс
-   * @request DELETE:/windows/{windowId}/classes/{id}
+   * @request DELETE:/windows/{window_id}/classes/{class_id}
    * @secure
    */
-  classesDelete = (windowId: string, id: string, params: RequestParams = {}) =>
+  classesDelete = (
+    windowId: string,
+    classId: string,
+    params: RequestParams = {},
+  ) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/classes/${id}`,
+      path: `/windows/${windowId}/classes/${classId}`,
       method: 'DELETE',
       secure: true,
       ...params,
@@ -188,7 +194,7 @@ export class Windows<
    * @tags Interfaces
    * @name InterfacesList
    * @summary Получить все интерфейсы в окне
-   * @request GET:/windows/{windowId}/interfaces
+   * @request GET:/windows/{window_id}/interfaces
    * @secure
    */
   interfacesList = (
@@ -229,7 +235,7 @@ export class Windows<
    * @tags Interfaces
    * @name InterfacesCreate
    * @summary Создать новый интерфейс в окне
-   * @request POST:/windows/{windowId}/interfaces
+   * @request POST:/windows/{window_id}/interfaces
    * @secure
    */
   interfacesCreate = (
@@ -260,19 +266,19 @@ export class Windows<
    * @tags Interfaces
    * @name InterfacesDetail
    * @summary Получить интерфейс по ID
-   * @request GET:/windows/{windowId}/interfaces/{id}
+   * @request GET:/windows/{window_id}/interfaces/{interface_id}
    * @secure
    */
   interfacesDetail = (
     windowId: string,
-    id: string,
+    interfaceId: string,
     params: RequestParams = {},
   ) =>
     this.request<
       Interface,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/interfaces/${id}`,
+      path: `/windows/${windowId}/interfaces/${interfaceId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -284,12 +290,12 @@ export class Windows<
    * @tags Interfaces
    * @name InterfacesUpdate
    * @summary Обновить данные интерфейса
-   * @request PUT:/windows/{windowId}/interfaces/{id}
+   * @request PUT:/windows/{window_id}/interfaces/{interface_id}
    * @secure
    */
   interfacesUpdate = (
     windowId: string,
-    id: string,
+    interfaceId: string,
     data: InterfaceUpdate,
     params: RequestParams = {},
   ) =>
@@ -302,7 +308,7 @@ export class Windows<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/windows/${windowId}/interfaces/${id}`,
+      path: `/windows/${windowId}/interfaces/${interfaceId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -316,19 +322,19 @@ export class Windows<
    * @tags Interfaces
    * @name InterfacesDelete
    * @summary Удалить интерфейс
-   * @request DELETE:/windows/{windowId}/interfaces/{id}
+   * @request DELETE:/windows/{window_id}/interfaces/{interface_id}
    * @secure
    */
   interfacesDelete = (
     windowId: string,
-    id: string,
+    interfaceId: string,
     params: RequestParams = {},
   ) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/interfaces/${id}`,
+      path: `/windows/${windowId}/interfaces/${interfaceId}`,
       method: 'DELETE',
       secure: true,
       ...params,
@@ -339,7 +345,7 @@ export class Windows<
    * @tags Relations
    * @name RelationsList
    * @summary Получить все связи в окне
-   * @request GET:/windows/{windowId}/relations
+   * @request GET:/windows/{window_id}/relations
    * @secure
    */
   relationsList = (
@@ -359,13 +365,7 @@ export class Windows<
        */
       limit?: number;
       /** Фильтр по типу связи */
-      type?:
-        | 'association'
-        | 'aggregation'
-        | 'composition'
-        | 'inheritance'
-        | 'realization'
-        | 'dependency';
+      type?: 'realization' | 'relation';
       /** Фильтр по исходному элементу */
       begin_id?: string;
       /** Фильтр по целевому элементу */
@@ -390,7 +390,7 @@ export class Windows<
    * @tags Relations
    * @name RelationsCreate
    * @summary Создать новую связь в окне
-   * @request POST:/windows/{windowId}/relations
+   * @request POST:/windows/{window_id}/relations
    * @secure
    */
   relationsCreate = (
@@ -421,19 +421,19 @@ export class Windows<
    * @tags Relations
    * @name RelationsDetail
    * @summary Получить связь по ID
-   * @request GET:/windows/{windowId}/relations/{id}
+   * @request GET:/windows/{window_id}/relations/{relation_id}
    * @secure
    */
   relationsDetail = (
     windowId: string,
-    id: string,
+    relationId: string,
     params: RequestParams = {},
   ) =>
     this.request<
       Relation,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/relations/${id}`,
+      path: `/windows/${windowId}/relations/${relationId}`,
       method: 'GET',
       secure: true,
       format: 'json',
@@ -445,12 +445,12 @@ export class Windows<
    * @tags Relations
    * @name RelationsUpdate
    * @summary Обновить данные связи
-   * @request PUT:/windows/{windowId}/relations/{id}
+   * @request PUT:/windows/{window_id}/relations/{relation_id}
    * @secure
    */
   relationsUpdate = (
     windowId: string,
-    id: string,
+    relationId: string,
     data: RelationUpdate,
     params: RequestParams = {},
   ) =>
@@ -462,7 +462,7 @@ export class Windows<
       | ErrorResponse
       | InternalServerError
     >({
-      path: `/windows/${windowId}/relations/${id}`,
+      path: `/windows/${windowId}/relations/${relationId}`,
       method: 'PUT',
       body: data,
       secure: true,
@@ -476,19 +476,19 @@ export class Windows<
    * @tags Relations
    * @name RelationsDelete
    * @summary Удалить связь
-   * @request DELETE:/windows/{windowId}/relations/{id}
+   * @request DELETE:/windows/{window_id}/relations/{relation_id}
    * @secure
    */
   relationsDelete = (
     windowId: string,
-    id: string,
+    relationId: string,
     params: RequestParams = {},
   ) =>
     this.request<
       void,
       UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
     >({
-      path: `/windows/${windowId}/relations/${id}`,
+      path: `/windows/${windowId}/relations/${relationId}`,
       method: 'DELETE',
       secure: true,
       ...params,
