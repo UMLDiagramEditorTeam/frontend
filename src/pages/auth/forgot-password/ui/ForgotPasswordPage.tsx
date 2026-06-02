@@ -13,11 +13,6 @@ interface ForgotPasswordFormValues {
   email: string;
 }
 
-/**
- * "Забыли пароль?" — юзер вводит email, бэк шлёт письмо со ссылкой
- * на /auth/password/change. на эту страницу юзер попадает с логина,
- * в письмах она НЕ фигурирует.
- */
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const { errorState, handleError, clearError } = useAuthError();
