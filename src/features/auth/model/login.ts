@@ -4,7 +4,7 @@ import { getMe } from './getMe';
 import type { User } from './types';
 
 export const login = async (email: string, password: string): Promise<User> => {
-  const resp = await authApi.loginCreate({ username: email, password });
+  const resp = await authApi.loginCreate({ email: email, password } as never);
 
   if (!resp.data?.access_token) {
     throw new Error('Login failed');

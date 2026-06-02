@@ -5,6 +5,9 @@ import { routePaths } from '@/shared/config/routePaths';
 import { MainPage } from '@/pages/main/ui/MainPage';
 import { LoginPage } from '@/pages/auth/login';
 import { RegisterPage } from '@/pages/auth/register';
+import { ConfirmAccountPage } from '@/pages/auth/confirm-account';
+import { ForgotPasswordPage } from '@/pages/auth/forgot-password';
+import { ChangePasswordPage } from '@/pages/auth/change-password';
 import { ProjectsPage } from '@/pages/projects/projects-list';
 import { EditorPage } from '@/pages/editor/diagram-editor';
 import { ProfilePage } from '@/pages/profile';
@@ -16,6 +19,7 @@ import { NotFoundPage } from '@/pages/not-found';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
+  // public
   {
     path: routePaths.login,
     element: <LoginPage />,
@@ -24,17 +28,26 @@ export const router = createBrowserRouter([
     path: routePaths.register,
     element: <RegisterPage />,
   },
-
+  // auth-флоу по ссылкам из писем (тоже публичные — юзер ещё не залогинен)
   {
-    path: '*',
-    element: <NotFoundPage />,
+    path: routePaths.confirmAccount,
+    element: <ConfirmAccountPage />,
+  },
+  {
+    path: routePaths.forgotPassword,
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: routePaths.changePassword,
+    element: <ChangePasswordPage />,
   },
 
-  // private
   {
     path: '/',
     element: <MainPage />,
   },
+
+  // private
   {
     path: routePaths.projects,
     element: (
@@ -82,5 +95,11 @@ export const router = createBrowserRouter([
         <CodeUploadPage />
       </PrivateRoute>
     ),
+  },
+
+  // catch-all всегда последним
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);
