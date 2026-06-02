@@ -9,16 +9,6 @@ import { useAuthError } from '@/features/auth/model/useAuthError';
 import { AuthErrorModal } from '@/features/auth/model/AuthErrorModal';
 
 type Status = 'pending' | 'success' | 'error';
-
-/**
- * страница подтверждения аккаунта.
- * юзер попадает сюда по ссылке из письма:
- *   /auth/confirm-account?user_id=...&code=...
- *
- * ПРЕДПОЛОЖЕНИЕ: бэк кладёт в ссылку именно user_id и code раздельными
- * query-параметрами. если формат другой (например, один token) —
- * поправить чтение searchParams ниже.
- */
 export const ConfirmAccountPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
