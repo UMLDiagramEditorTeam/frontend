@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, Form, Input } from 'antd';
+import { Button, Card, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import '../../AuthPage.css';
@@ -26,7 +26,8 @@ export const RegisterPage = () => {
     setIsSubmitting(true);
     try {
       await register(values.name, values.email, values.password);
-      navigate(routePaths.projects);
+      message.success('Регистрация прошла успешно! Войдите в систему.');
+      navigate(routePaths.login);
     } finally {
       setIsSubmitting(false);
     }

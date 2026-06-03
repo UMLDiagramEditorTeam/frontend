@@ -11,21 +11,20 @@
  */
 
 import {
+  AccountConfirmationRequest,
   ChangePasswordRequest,
-  ChangePasswordResponse,
   ConflictError,
   ErrorResponse,
   InternalServerError,
   LoginRequest,
-  LoginResponse,
-  LogoutResponse,
+  PasswordResetRequest,
   RegisterRequest,
-  RegisterResponse,
+  SuccessResponse,
+  TokenResponse,
   UnauthorizedError,
   User,
 } from './data-contracts';
-import { HttpClient, ContentType } from './http-client';
-import type { RequestParams } from './http-client';
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Auth<
   SecurityDataType = unknown,
@@ -40,11 +39,30 @@ export class Auth<
    * @secure
    */
   registerCreate = (data: RegisterRequest, params: RequestParams = {}) =>
-    this.request<
-      RegisterResponse,
-      ConflictError | ErrorResponse | InternalServerError
-    >({
+    this.request<User, ConflictError | ErrorResponse | InternalServerError>({
       path: `/auth/register`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Auth
+   * @name ConfirmAccountCreate
+   * @summary Подтверждение аккаунта
+   * @request POST:/auth/confirm-account
+   * @secure
+   */
+  confirmAccountCreate = (
+    data: AccountConfirmationRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<User, ErrorResponse | InternalServerError>({
+      path: `/auth/confirm-account`,
       method: 'POST',
       body: data,
       secure: true,
@@ -63,7 +81,7 @@ export class Auth<
    */
   loginCreate = (data: LoginRequest, params: RequestParams = {}) =>
     this.request<
-      LoginResponse,
+      TokenResponse,
       UnauthorizedError | ErrorResponse | InternalServerError
     >({
       path: `/auth/login`,
@@ -84,8 +102,25 @@ export class Auth<
    * @secure
    */
   logoutCreate = (params: RequestParams = {}) =>
-    this.request<LogoutResponse, UnauthorizedError | InternalServerError>({
+    this.request<SuccessResponse, UnauthorizedError | InternalServerError>({
       path: `/auth/logout`,
+      method: 'POST',
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Auth
+   * @name RefreshCreate
+   * @summary Обновление access-токена
+   * @request POST:/auth/refresh
+   * @secure
+   */
+  refreshCreate = (params: RequestParams = {}) =>
+    this.request<TokenResponse, UnauthorizedError | InternalServerError>({
+      path: `/auth/refresh`,
       method: 'POST',
       secure: true,
       format: 'json',
@@ -112,9 +147,31 @@ export class Auth<
    * No description
    *
    * @tags Auth
+   * @name PasswordResetCreate
+   * @summary Запрос сброса пароля
+   * @request POST:/auth/password/reset
+   * @secure
+   */
+  passwordResetCreate = (
+    data: PasswordResetRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<SuccessResponse, ErrorResponse | InternalServerError>({
+      path: `/auth/password/reset`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Auth
    * @name PasswordChangeCreate
    * @summary Смена пароля пользователя
-   * @request POST:/auth/password-change
+   * @request POST:/auth/password/change
    * @secure
    */
   passwordChangeCreate = (
@@ -122,10 +179,10 @@ export class Auth<
     params: RequestParams = {},
   ) =>
     this.request<
-      ChangePasswordResponse,
+      SuccessResponse,
       ErrorResponse | UnauthorizedError | InternalServerError
     >({
-      path: `/auth/password-change`,
+      path: `/auth/password/change`,
       method: 'POST',
       body: data,
       secure: true,

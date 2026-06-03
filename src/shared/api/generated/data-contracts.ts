@@ -29,35 +29,23 @@ export interface ValidationErrorItem {
 }
 
 export interface ErrorResponse {
-  error: ErrorResponseError;
+  message?: string | null;
+  detail?: object | object[] | string | null;
 }
 
-export interface UnauthorizedError {
-  error: UnauthorizedErrorError;
-}
+export type UnauthorizedError = ErrorResponse;
 
-export interface ForbiddenError {
-  error: ForbiddenErrorError;
-}
+export type ForbiddenError = ErrorResponse;
 
-export interface NotFoundError {
-  error: NotFoundErrorError;
-}
+export type NotFoundError = ErrorResponse;
 
-export interface ConflictError {
-  error: ConflictErrorError;
-}
+export type ConflictError = ErrorResponse;
 
-export interface InternalServerError {
-  error: InternalServerErrorError;
-}
+export type InternalServerError = ErrorResponse;
 
 export interface LoginRequest {
-  /**
-   * @format email
-   * @example "user@example.com"
-   */
-  email: string;
+  /** @example "user@example.com" */
+  username: string;
   /**
    * @format password
    * @example "securePassword123"
@@ -65,11 +53,10 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
-  /** @example "Успешный вход в систему" */
-  message: string;
-  /** JWT access token */
-  access: string;
+export interface TokenResponse {
+  access_token: string;
+  /** @default "bearer" */
+  token_type?: string;
 }
 
 export interface RegisterRequest {
@@ -96,15 +83,11 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   /** @example "Пользователь успешно зарегистрирован" */
   message: string;
-  /** JWT access token */
-  access: string;
 }
 
-export interface LogoutResponse {
-  /** @example "Успешный выход из системы" */
-  message: string;
-  /** @example "success" */
-  status?: string;
+export interface SuccessResponse {
+  /** @default true */
+  success: boolean;
 }
 
 export interface User {
@@ -124,6 +107,10 @@ export interface User {
    * @example "user@example.com"
    */
   email: string;
+  /** @default true */
+  is_active: boolean;
+  /** @default "CREATED" */
+  status: 'CREATED' | 'CONFIRMED';
   /** @format date-time */
   created_at: string;
   /** @format date-time */
@@ -191,14 +178,14 @@ export interface ProjectCreate {
   name: string;
   description?: string | null;
   /** @default false */
-  is_imported: boolean;
+  is_imported?: boolean;
 }
 
 export interface ProjectUpdate {
   /** @maxLength 200 */
   name: string;
   description?: string | null;
-  is_imported: boolean;
+  is_imported?: boolean;
 }
 
 export interface Window {
@@ -241,12 +228,10 @@ export interface WindowUpdate {
 export interface Tile {
   /** @format uuid */
   id: string;
-  /** @default false */
-  is_correct?: boolean;
-  /** @example 100 */
-  position_x?: number;
-  /** @example 150 */
-  position_y?: number;
+  /** @default 0 */
+  x?: number;
+  /** @default 0 */
+  y?: number;
   /** @default 200 */
   width?: number;
   /** @default 150 */
@@ -258,14 +243,10 @@ export interface Tile {
 }
 
 export interface TileCreate {
-  /** @format uuid */
-  id: string;
-  /** @default false */
-  is_correct?: boolean;
-  /** @example 100 */
-  position_x?: number;
-  /** @example 150 */
-  position_y?: number;
+  /** @default 0 */
+  x?: number;
+  /** @default 0 */
+  y?: number;
   /** @default 200 */
   width?: number;
   /** @default 150 */
@@ -273,11 +254,13 @@ export interface TileCreate {
 }
 
 export interface TileUpdate {
-  /** @default false */
-  is_correct?: boolean;
-  position_x?: number;
-  position_y?: number;
+  /** @default 0 */
+  x?: number;
+  /** @default 0 */
+  y?: number;
+  /** @default 200 */
   width?: number;
+  /** @default 150 */
   height?: number;
 }
 
@@ -290,13 +273,12 @@ export interface Class {
    */
   name: string;
   /** @example "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /** @default false */
   is_abstract?: boolean;
   /** @format uuid */
   window_id: string;
-  /** @format uuid */
-  tile_id: string;
+  tile: Tile;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -309,17 +291,18 @@ export interface ClassCreate {
    * @example "NewClass"
    */
   name: string;
-  /** @default "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /** @default false */
   is_abstract?: boolean;
+  tile?: TileCreate;
 }
 
 export interface ClassUpdate {
   /** @maxLength 100 */
   name: string;
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   is_abstract?: boolean;
+  tile: TileUpdate;
 }
 
 export interface Interface {
@@ -331,9 +314,8 @@ export interface Interface {
    */
   name: string;
   /** @format uuid */
-  tile_id: string;
-  /** @format uuid */
   window_id: string;
+  tile: Tile;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -346,11 +328,13 @@ export interface InterfaceCreate {
    * @example "NewInterface"
    */
   name: string;
+  tile?: TileCreate;
 }
 
 export interface InterfaceUpdate {
   /** @maxLength 100 */
   name: string;
+  tile: TileUpdate;
 }
 
 export interface Attribute {
@@ -361,8 +345,7 @@ export interface Attribute {
    * @example "userName"
    */
   name: string;
-  /** @default "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /**
    * Тип данных
    * @maxLength 100
@@ -380,8 +363,6 @@ export interface Attribute {
   default_value?: string | null;
   /** @format uuid */
   class_id?: string | null;
-  /** @format uuid */
-  interface_id?: string | null;
   /** @format date-time */
   created_at?: string;
   /** @format date-time */
@@ -394,8 +375,7 @@ export interface AttributeCreate {
    * @example "count"
    */
   name: string;
-  /** @default "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /**
    * @maxLength 100
    * @example "int"
@@ -411,7 +391,7 @@ export interface AttributeCreate {
 export interface AttributeUpdate {
   /** @maxLength 100 */
   name: string;
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /** @maxLength 100 */
   type: string;
   is_final?: boolean;
@@ -424,6 +404,8 @@ export interface MethodArgument {
   name: string;
   /** @example "int" */
   type: string;
+  /** @min 0 */
+  order_num: number;
   /** @example "0" */
   default_value?: string | null;
 }
@@ -436,8 +418,7 @@ export interface Method {
    * @example "calculateTotal"
    */
   name: string;
-  /** @default "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /**
    * @maxLength 100
    * @example "double"
@@ -449,7 +430,7 @@ export interface Method {
   is_static?: boolean;
   /** @default false */
   is_abstract?: boolean;
-  parameters?: MethodArgument[];
+  arguments?: MethodArgument[];
   /** @format uuid */
   class_id?: string | null;
   /** @format uuid */
@@ -466,8 +447,7 @@ export interface MethodCreate {
    * @example "processData"
    */
   name: string;
-  /** @default "public" */
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /**
    * @maxLength 100
    * @example "void"
@@ -479,34 +459,37 @@ export interface MethodCreate {
   is_static?: boolean;
   /** @default false */
   is_abstract?: boolean;
-  parameters?: MethodArgument[];
+  arguments?: MethodArgument[];
 }
 
 export interface MethodUpdate {
   /** @maxLength 100 */
   name: string;
-  access_modifier?: 'public' | 'private' | 'protected' | null;
+  access_modifier?: 'public' | 'private' | 'protected' | 'default' | null;
   /** @maxLength 100 */
   return_type: string;
   is_final?: boolean;
   is_static?: boolean;
   is_abstract?: boolean;
-  parameters?: MethodArgument[];
+  arguments?: MethodArgument[];
 }
 
 export interface Relation {
   /** @format uuid */
   id: string;
+  /** @maxLength 100 */
+  name: string;
   type: 'relation' | 'realization';
   /** @format uuid */
-  begin_class_id?: string;
+  begin_class_id?: string | null;
   /** @format uuid */
-  end_class_id?: string;
+  end_class_id?: string | null;
   /** @format uuid */
-  begin_interface_id?: string;
+  begin_interface_id?: string | null;
   /** @format uuid */
-  end_interface_id?: string;
+  end_interface_id?: string | null;
   begin_type:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -515,6 +498,7 @@ export interface Relation {
     | 'zero_or_many'
     | null;
   end_type:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -531,16 +515,19 @@ export interface Relation {
 }
 
 export interface RelationCreate {
-  type: 'relation' | 'realization';
+  /** @maxLength 100 */
+  name: string;
+  type?: 'relation' | 'realization';
   /** @format uuid */
-  begin_class_id?: string;
+  begin_class_id?: string | null;
   /** @format uuid */
-  end_class_id?: string;
+  end_class_id?: string | null;
   /** @format uuid */
-  begin_interface_id?: string;
+  begin_interface_id?: string | null;
   /** @format uuid */
-  end_interface_id?: string;
-  begin_type:
+  end_interface_id?: string | null;
+  begin_type?:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -548,7 +535,8 @@ export interface RelationCreate {
     | 'zero_or_one'
     | 'zero_or_many'
     | null;
-  end_type:
+  end_type?:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -559,8 +547,11 @@ export interface RelationCreate {
 }
 
 export interface RelationUpdate {
-  type: 'relation' | 'realization';
-  begin_type:
+  /** @maxLength 100 */
+  name: string;
+  type?: 'relation' | 'realization';
+  begin_type?:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -568,7 +559,8 @@ export interface RelationUpdate {
     | 'zero_or_one'
     | 'zero_or_many'
     | null;
-  end_type:
+  end_type?:
+    | 'relation'
     | 'one'
     | 'many'
     | 'one_only_one'
@@ -576,40 +568,53 @@ export interface RelationUpdate {
     | 'zero_or_one'
     | 'zero_or_many'
     | null;
+  /** @format uuid */
+  begin_class_id?: string | null;
+  /** @format uuid */
+  end_class_id?: string | null;
+  /** @format uuid */
+  begin_interface_id?: string | null;
+  /** @format uuid */
+  end_interface_id?: string | null;
+}
+
+export interface AccountConfirmationRequest {
+  /** @format uuid */
+  user_id: string;
+  code: string;
+}
+
+export interface PasswordResetRequest {
+  /** @format email */
+  email: string;
+}
+
+export interface UpdateUserRolesRequest {
+  roles: string[];
 }
 
 export interface ChangePasswordRequest {
+  /** @format uuid */
+  user_id: string;
+  code: string;
   /**
-   * Текущий пароль пользователя
    * @format password
-   * @minLength 8
-   * @example "oldPassword123"
+   * @minLength 6
+   * @maxLength 50
    */
-  current_password: string;
+  password: string;
   /**
-   * Новый пароль
    * @format password
-   * @minLength 8
-   * @example "newPassword456"
+   * @minLength 6
+   * @maxLength 50
    */
-  new_password: string;
-  /**
-   * Подтверждение нового пароля
-   * @format password
-   * @minLength 8
-   * @example "newPassword456"
-   */
-  confirm_password: string;
+  password_confirm: string;
 }
 
-export interface ChangePasswordResponse {
-  /**
-   * Сообщение об успешной смене пароля
-   * @example "Password changed successfully"
-   */
-  message?: string;
-  /** @example "success" */
-  status?: string;
+export interface CodeGenerationResponse {
+  files: Record<string, string>;
+  files_count?: number;
+  summary?: string;
 }
 
 export interface PaginatedResponse {

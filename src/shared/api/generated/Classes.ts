@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   Attribute,
   AttributeCreate,
   AttributeUpdate,
@@ -25,9 +25,7 @@ import type {
   NotFoundError,
   UnauthorizedError,
 } from './data-contracts';
-import { HttpClient, ContentType } from './http-client';
-import type { RequestParams } from './http-client';
-
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Classes<
   SecurityDataType = unknown,
@@ -38,7 +36,7 @@ export class Classes<
    * @tags Attributes
    * @name AttributesList
    * @summary Получить все атрибуты класса
-   * @request GET:/classes/{classId}/attributes
+   * @request GET:/classes/{class_id}/attributes
    * @secure
    */
   attributesList = (
@@ -77,7 +75,7 @@ export class Classes<
    * @tags Attributes
    * @name AttributesCreate
    * @summary Создать новый атрибут для класса
-   * @request POST:/classes/{classId}/attributes
+   * @request POST:/classes/{class_id}/attributes
    * @secure
    */
   attributesCreate = (
@@ -107,7 +105,7 @@ export class Classes<
    * @tags Attributes
    * @name AttributesDetail
    * @summary Получить атрибут класса по ID
-   * @request GET:/classes/{classId}/attributes/{attributeId}
+   * @request GET:/classes/{class_id}/attributes/{attribute_id}
    * @secure
    */
   attributesDetail = (
@@ -131,7 +129,7 @@ export class Classes<
    * @tags Attributes
    * @name AttributesUpdate
    * @summary Обновить атрибут класса
-   * @request PUT:/classes/{classId}/attributes/{attributeId}
+   * @request PUT:/classes/{class_id}/attributes/{attribute_id}
    * @secure
    */
   attributesUpdate = (
@@ -162,7 +160,7 @@ export class Classes<
    * @tags Attributes
    * @name AttributesDelete
    * @summary Удалить атрибут класса
-   * @request DELETE:/classes/{classId}/attributes/{attributeId}
+   * @request DELETE:/classes/{class_id}/attributes/{attribute_id}
    * @secure
    */
   attributesDelete = (
@@ -185,7 +183,7 @@ export class Classes<
    * @tags Methods
    * @name MethodsList
    * @summary Получить все методы класса
-   * @request GET:/classes/{classId}/methods
+   * @request GET:/classes/{class_id}/methods
    * @secure
    */
   methodsList = (
@@ -224,7 +222,7 @@ export class Classes<
    * @tags Methods
    * @name MethodsCreate
    * @summary Создать новый метод для класса
-   * @request POST:/classes/{classId}/methods
+   * @request POST:/classes/{class_id}/methods
    * @secure
    */
   methodsCreate = (
@@ -254,7 +252,7 @@ export class Classes<
    * @tags Methods
    * @name MethodsDetail
    * @summary Получить метод класса по ID
-   * @request GET:/classes/{classId}/methods/{methodId}
+   * @request GET:/classes/{class_id}/methods/{method_id}
    * @secure
    */
   methodsDetail = (
@@ -278,7 +276,7 @@ export class Classes<
    * @tags Methods
    * @name MethodsUpdate
    * @summary Обновить метод класса
-   * @request PUT:/classes/{classId}/methods/{methodId}
+   * @request PUT:/classes/{class_id}/methods/{method_id}
    * @secure
    */
   methodsUpdate = (
@@ -309,7 +307,7 @@ export class Classes<
    * @tags Methods
    * @name MethodsDelete
    * @summary Удалить метод класса
-   * @request DELETE:/classes/{classId}/methods/{methodId}
+   * @request DELETE:/classes/{class_id}/methods/{method_id}
    * @secure
    */
   methodsDelete = (

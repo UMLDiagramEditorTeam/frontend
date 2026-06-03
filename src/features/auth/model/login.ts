@@ -1,22 +1,17 @@
-import { mockAuthApi } from '@/shared/api/mock/auth.mock'; // моки
+import { authApi } from '@/shared/api/client';
 import { tokenService } from './token';
-import type { User } from './types'; // моковый юзер
+import { getMe } from './getMe';
+import type { User } from './types';
 
 export const login = async (email: string, password: string): Promise<User> => {
-  const resp = await mockAuthApi.loginCreate({ email, password });
+  const resp = await authApi.loginCreate({ email: email, password } as never);
 
-  if (!resp.data?.access) {
+  if (!resp.data?.access_token) {
     throw new Error('Login failed');
   }
 
-  // правка - оставляю только access ; refresh придет в httpOnly cookie
-  tokenService.set(resp.data.access);
+  // только access ; refresh придет в httpOnly cookie
+  tokenService.set(resp.data.access_token);
 
-  const meResp = await mockAuthApi.getAuth();
-
-  if (!meResp.data) {
-    throw new Error('Failed to fetch user');
-  }
-
-  return meResp.data;
+  return getMe();
 };
