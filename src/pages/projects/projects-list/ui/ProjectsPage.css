@@ -1,0 +1,243 @@
+.projectsLayout {
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    background: white;
+    height: 70px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.headerLogo {
+    font-size: 32px;
+    font-weight: 700;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerLogoImg {
+    width: 60px;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.headerIcon {
+    font-size: 20px;
+    color: #595959;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.headerIcon:hover {
+    color: #1890ff;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #e6f7ff;
+    color: #1890ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* CONTENT */
+.content {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+}
+
+/* EMPTY STATE */
+.emptyState {
+    background: white;
+    padding: 60px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: 500px;
+    margin: auto 0;
+}
+
+.emptyIcon {
+    font-size: 96px;
+    color: #bfbfbf;
+    margin-bottom: 24px;
+}
+
+.emptyTitle {
+    font-size: 30px;
+    font-weight: 600;
+    color: #262626;
+    margin-bottom: 12px;
+}
+
+.emptyDescription {
+    font-size: 20px;
+    color: #8c8c8c;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.emptyState .ant-btn {
+    height: 60px;
+    padding: 0 40px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+/* Стили для списка проектов */
+.listHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.projectsCount {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.projectGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Стили карточки проекта */
+.projectCard {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+    min-height: 200px;
+}
+
+.projectCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.cardThumbnail {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.cardBody {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.cardMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: #8c8c8c;
+}
+
+.diagramTag {
+    background: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.cardDate {
+    font-size: 12px;
+}
+
+.cardMenu {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 20px;
+    color: #bfbfbf;
+    cursor: pointer;
+}
+
+/* Стили для инпута поиска в шапке */
+.headerSearchInput {
+    width: 200px;
+    transition: width 0.3s ease;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+    background: transparent;
+    box-shadow: none !important;
+}
+
+.headerSearchInput:focus,
+.headerSearchInput:hover {
+    border-bottom-color: #1890ff;
+}
+
+/* Подсветка иконки фильтра, если он активен */
+.activeFilter {
+    color: #1890ff !important;
+    background-color: rgba(24, 144, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+/* Стили для контейнера действий, чтобы элементы не прыгали */
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

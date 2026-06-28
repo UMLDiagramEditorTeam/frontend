@@ -1,0 +1,346 @@
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+import {
+  CodeGenerationResponse,
+  ErrorResponse,
+  ForbiddenError,
+  InlineResponse2001,
+  InlineResponse2002,
+  InternalServerError,
+  NotFoundError,
+  Project,
+  ProjectCreate,
+  ProjectUpdate,
+  UnauthorizedError,
+  Window,
+  WindowCreate,
+  WindowUpdate,
+} from './data-contracts';
+import { ContentType, HttpClient, RequestParams } from './http-client';
+
+export class Projects<
+  SecurityDataType = unknown,
+> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Projects
+   * @name ProjectsList
+   * @summary Получить список проектов текущего пользователя
+   * @request GET:/projects
+   * @secure
+   */
+  projectsList = (
+    query?: {
+      /**
+       * Номер страницы (с 1)
+       * @min 1
+       * @default 1
+       */
+      page?: number;
+      /**
+       * Количество элементов на странице
+       * @min 1
+       * @max 100
+       * @default 20
+       */
+      limit?: number;
+      /** Фильтр по названию проекта (частичное совпадение) */
+      name?: string;
+      /** Фильтр по флагу импорта */
+      is_imported?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<InlineResponse2001, UnauthorizedError | InternalServerError>({
+      path: `/projects`,
+      method: 'GET',
+      query: query,
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Projects
+   * @name ProjectsCreate
+   * @summary Создать новый проект
+   * @request POST:/projects
+   * @secure
+   */
+  projectsCreate = (data: ProjectCreate, params: RequestParams = {}) =>
+    this.request<
+      Project,
+      UnauthorizedError | ErrorResponse | InternalServerError
+    >({
+      path: `/projects`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Projects
+   * @name ProjectsDetail
+   * @summary Получить проект по ID
+   * @request GET:/projects/{project_id}
+   * @secure
+   */
+  projectsDetail = (projectId: string, params: RequestParams = {}) =>
+    this.request<
+      Project,
+      UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
+    >({
+      path: `/projects/${projectId}`,
+      method: 'GET',
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Projects
+   * @name ProjectsUpdate
+   * @summary Обновить данные проекта
+   * @request PUT:/projects/{project_id}
+   * @secure
+   */
+  projectsUpdate = (
+    projectId: string,
+    data: ProjectUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      Project,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/projects/${projectId}`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Projects
+   * @name ProjectsDelete
+   * @summary Удалить проект
+   * @request DELETE:/projects/{project_id}
+   * @secure
+   */
+  projectsDelete = (projectId: string, params: RequestParams = {}) =>
+    this.request<
+      void,
+      UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
+    >({
+      path: `/projects/${projectId}`,
+      method: 'DELETE',
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsList
+   * @summary Получить все окна проекта
+   * @request GET:/projects/{project_id}/windows
+   * @secure
+   */
+  windowsList = (
+    projectId: string,
+    query?: {
+      /**
+       * Номер страницы (с 1)
+       * @min 1
+       * @default 1
+       */
+      page?: number;
+      /**
+       * Количество элементов на странице
+       * @min 1
+       * @max 100
+       * @default 20
+       */
+      limit?: number;
+      /** Фильтр по типу окна */
+      type?: 'class_diagram' | 'sequence_diagram';
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      InlineResponse2002,
+      UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows`,
+      method: 'GET',
+      query: query,
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsCreate
+   * @summary Создать новое окно в проекте
+   * @request POST:/projects/{project_id}/windows
+   * @secure
+   */
+  windowsCreate = (
+    projectId: string,
+    data: WindowCreate,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      Window,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsDetail
+   * @summary Получить окно по ID
+   * @request GET:/projects/{project_id}/windows/{window_id}
+   * @secure
+   */
+  windowsDetail = (
+    projectId: string,
+    windowId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      Window,
+      UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows/${windowId}`,
+      method: 'GET',
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsUpdate
+   * @summary Обновить данные окна
+   * @request PUT:/projects/{project_id}/windows/{window_id}
+   * @secure
+   */
+  windowsUpdate = (
+    projectId: string,
+    windowId: string,
+    data: WindowUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      Window,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows/${windowId}`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsDelete
+   * @summary Удалить окно
+   * @request DELETE:/projects/{project_id}/windows/{window_id}
+   * @secure
+   */
+  windowsDelete = (
+    projectId: string,
+    windowId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      void,
+      UnauthorizedError | ForbiddenError | NotFoundError | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows/${windowId}`,
+      method: 'DELETE',
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Windows
+   * @name WindowsGenerateCodeCreate
+   * @summary Сгенерировать код по окну
+   * @request POST:/projects/{project_id}/windows/{window_id}/generate_code
+   * @secure
+   */
+  windowsGenerateCodeCreate = (
+    projectId: string,
+    windowId: string,
+    query?: {
+      /** @default "java" */
+      language?: 'java' | 'python';
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      CodeGenerationResponse,
+      | UnauthorizedError
+      | ForbiddenError
+      | NotFoundError
+      | ErrorResponse
+      | InternalServerError
+    >({
+      path: `/projects/${projectId}/windows/${windowId}/generate_code`,
+      method: 'POST',
+      query: query,
+      secure: true,
+      format: 'json',
+      ...params,
+    });
+}

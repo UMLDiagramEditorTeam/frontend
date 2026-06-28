@@ -1,0 +1,183 @@
+.exportPageLayout {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.exportCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.exportHeader {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.exportHeader h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.exportHeader p {
+    color: #8c8c8c;
+    margin: 0;
+}
+
+/* Сетка для форматов */
+.exportFormats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.formatCard {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.formatCard:hover {
+    border-color: #40a9ff;
+    background-color: #fafafa;
+}
+
+.formatCard.active {
+    border-color: #1890ff;
+    background-color: #e6f7ff;
+    border-width: 2px;
+}
+
+.formatIcon {
+    font-size: 24px;
+    color: #8c8c8c;
+    margin-right: 16px;
+    width: 32px;
+    text-align: center;
+}
+
+.formatCard.active .formatIcon {
+    color: #1890ff;
+}
+
+.formatInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.formatLabel {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+}
+
+.formatDesc {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+.formatCheck {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1890ff;
+    font-size: 20px;
+}
+
+/* Превью */
+.exportPreview {
+    margin-bottom: 24px;
+}
+
+.previewLabel {
+    font-size: 14px;
+    color: #8c8c8c;
+    margin-bottom: 12px;
+}
+
+.previewBox {
+    background-color: #fafafa;
+    border: 1px dashed #d9d9d9;
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Стили для заглушки диаграммы внутри превью */
+.previewDummyNode {
+    background: #fff;
+    border: 1px solid #333;
+    min-width: 150px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-size: 12px;
+}
+
+.previewDummyHeader {
+    padding: 6px 10px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    background: #f5f5f5;
+}
+
+.previewDummyContent {
+    padding: 8px 10px;
+    line-height: 1.5;
+}
+
+/* Футер */
+.exportFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 24px;
+}
+
+.export-diagram-container .react-flow__handle {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 10px !important;
+    height: 10px !important;
+}
+
+.export-diagram-container .react-flow__edges {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+.export-diagram-container .react-flow__edge-path {
+    stroke: #333 !important;
+    stroke-width: 2px !important;
+    fill: none !important;
+}
+
+.export-diagram-container .react-flow__arrowhead {
+    fill: #333 !important;
+}
+
+.export-diagram-container .react-flow__edge.animated path {
+    stroke-dasharray: 5 !important;
+    animation: none !important;
+}
